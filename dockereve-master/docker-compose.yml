@@ -1,0 +1,31 @@
+nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+        - 80:80
+    volumes:
+        - /www/static
+    volumes_from:
+        - web
+    links:
+        - web:web
+
+web:
+    restart: always
+    build: eve-app
+    expose:
+        - 5000
+    ports:
+        - 5000
+    volumes:
+        - /usr/src/app/static
+    links:
+        - mongodb
+    command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
+
+mongodb:
+  image: mongo
+  expose:
+    - 27017
+  ports:
+    - 27017
