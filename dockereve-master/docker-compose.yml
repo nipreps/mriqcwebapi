@@ -18,6 +18,7 @@ web:
     ports:
         - 5000
     volumes:
+        - ./eve-app:/usr/src/app 
         - /usr/src/app/static
     links:
         - mongodb
