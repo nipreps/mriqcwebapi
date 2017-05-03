@@ -45,9 +45,9 @@ class TestCase(unittest.TestCase):
         for fileName in glob(pattern):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
-                # 2. POST request
+                # POST request
                 postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
-                # print postResponse.status_code
+                # this should be false. intent to fail the test
                 self.assertTrue( postResponse.status_code == 200 )
 
 
