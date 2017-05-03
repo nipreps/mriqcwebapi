@@ -1,0 +1,16 @@
+dependencies:
+  override:
+    - pip install docker-compose 
+    - pip install requests
+
+machine:
+    python:
+        version: 3.5.0
+    environment:
+        SECRET_KEY: CI
+    services:
+        - docker
+
+test:
+  override:
+    - docker-compose up && python test/testGetPost.py
