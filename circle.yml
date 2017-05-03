@@ -13,5 +13,5 @@ test:
   pre:
     - docker-compose -f dockereve-master/docker-compose.yml build
   override:
-    - docker-compose -f dockereve-master/docker-compose.yml up
-    - python test/testGetPost.py
+    - docker-compose -f dockereve-master/docker-compose.yml up && python test/testGetPost.py
+    
