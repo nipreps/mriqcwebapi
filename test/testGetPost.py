@@ -38,5 +38,18 @@ class TestCase(unittest.TestCase):
                     # check key-value pair match
                     self.assertTrue( inputData[key] == queriedData[key] )
 
+    def testForFailReport(self):
+         # 1. initialize param. change to others for later use
+        url = "http://localhost:80/scenarios"
+        
+        for fileName in glob(pattern):
+            with open(fileName) as fp:
+                inputData = json.load(fp) 
+                # 2. POST request
+                postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
+                # print postResponse.status_code
+                self.assertTrue( postResponse.status_code == 200 )
+
+
 if __name__ == '__main__':
     unittest.main()
