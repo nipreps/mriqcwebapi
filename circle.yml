@@ -4,14 +4,14 @@ dependencies:
     - pip install requests
 
 machine:
-    python:
-        version: 3.5.0
     environment:
         SECRET_KEY: CI
     services:
         - docker
 
 test:
-  override:
+  pre:
+    - docker-compose -f dockereve-master/docker-compose.yml build
     - docker-compose -f dockereve-master/docker-compose.yml up
+  override:
     - python test/testGetPost.py

@@ -18,24 +18,25 @@ header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 
 class TestCase(unittest.TestCase):
 
-    def testDataValide(self):
+    def testDataValid(self):
         # 1. initialize param. change to others for later use
         url = "http://localhost:80/scenarios"
         
         for fileName in glob(pattern):
-            inputData = json.load(open(fileName)) 
-            # 2. POST request
-            postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
+            with open(fileName) as fp:
+                inputData = json.load(fp) 
+                # 2. POST request
+                postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
 
-            # 3. GET request
-            queriedData = getRequest(postResponse, url)
-            
-            # 4. validate input data and queried data
-            for key in inputData:
-                # check missing key
-                self.assertTrue(key in queriedData)
-                # check key-value pair match
-                self.assertTrue( inputData[key] == queriedData[key] )
+                # 3. GET request
+                queriedData = getRequest(postResponse, url)
+                
+                # 4. validate input data and queried data
+                for key in inputData:
+                    # check missing key
+                    self.assertTrue(key in queriedData)
+                    # check key-value pair match
+                    self.assertTrue( inputData[key] == queriedData[key] )
 
 if __name__ == '__main__':
     unittest.main()
