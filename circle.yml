@@ -13,4 +13,5 @@ machine:
 
 test:
   override:
-    - docker-compose up && python test/testGetPost.py
+    - docker-compose -f dockereve-master/docker-compose.yml up
+    - python test/testGetPost.py
