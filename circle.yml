@@ -13,6 +13,7 @@ test:
   pre:
     - docker-compose -f dockereve-master/docker-compose.yml build
   override:
-    - docker-compose -f dockereve-master/docker-compose.yml up -d; sleep 300
+    - docker-compose -f dockereve-master/docker-compose.yml up -d
+    - sleep 300
     - python test/testGetPost.py
     
