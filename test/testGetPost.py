@@ -4,6 +4,8 @@ from glob import glob
 # test data directory
 pattern = os.path.join('derivatives/', '*.json')
 
+print pattern
+
 # url for GET
 def getURL(postResponse, url):
     dirID = postResponse.json()["_id"]
@@ -83,7 +85,13 @@ class TestCase(unittest.TestCase):
         log= logging.getLogger( "SomeTest.testSomething" )
 
         count = 0
+
+        log.debug("count: %r", count)
+        self.assertTrue( count == 0 )
+        
+        log.debug("pattern: %r", pattern)
         for fileName in glob(pattern):
+            log.debug( "fileName: %r", fileName )
             count = count + 1
 
         log.debug( "count= %r", count )
