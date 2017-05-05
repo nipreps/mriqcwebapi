@@ -86,12 +86,14 @@ class TestCase(unittest.TestCase):
 
         count = 0
 
-        log.debug("count: %r", count)
+        log.debug("initial count: %r", count)
         self.assertTrue( count == 0 )
-        
+
         log.debug("pattern: %r", pattern)
+
+        log.debug( "glob: %r", glob(pattern) )
         for fileName in glob(pattern):
-            log.debug( "fileName: %r", fileName )
+            # log.debug( "fileName: %r", fileName )
             count = count + 1
 
         log.debug( "count= %r", count )
