@@ -2,7 +2,7 @@ import requests, json, unittest, os.path, logging, sys
 from glob import glob
 
 # test data directory
-pattern = os.path.join('derivatives/', '*.json')
+pattern = os.path.join('test/derivatives/', '*.json')
 
 print pattern
 
