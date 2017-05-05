@@ -20,24 +20,24 @@ header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 
 class TestCase(unittest.TestCase):
 
-    def test_00_ConnectionStatus(self):
-         # 1. initialize param. change to others for later use
-        url = "http://localhost:80/scenarios"
+    # def test_00_ConnectionStatus(self):
+    #      # 1. initialize param. change to others for later use
+    #     url = "http://localhost:80/scenarios"
 
-        log= logging.getLogger( "SomeTest.testSomething" )
-        # log.debug( "this= %r", "self.this" )
-        # log.debug( "that= %r", "self.that" )        
-        for fileName in glob(pattern):
-            log.debug( "fileName: %r", fileName )
-            # print fileName
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
-                # POST request
-                postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
-                self.assertTrue( postResponse.raise_for_status() == None )
-                # GET request
-                getResponse = requests.get( getURL(postResponse, url) )
-                self.assertTrue( getResponse.raise_for_status() == None )
+    #     log= logging.getLogger( "SomeTest.testSomething" )
+    #     # log.debug( "this= %r", "self.this" )
+    #     # log.debug( "that= %r", "self.that" )        
+    #     for fileName in glob(pattern):
+    #         log.debug( "fileName: %r", fileName )
+    #         # print fileName
+    #         with open(fileName) as fp:
+    #             inputData = json.load(fp) 
+    #             # POST request
+    #             postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
+    #             self.assertTrue( postResponse.raise_for_status() == None )
+    #             # GET request
+    #             getResponse = requests.get( getURL(postResponse, url) )
+    #             self.assertTrue( getResponse.raise_for_status() == None )
 
     # def test_01_DataValid(self):
     #     # 1. initialize param. change to others for later use
