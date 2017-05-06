@@ -1,0 +1,19 @@
+dependencies:
+  override:
+    - pip install docker-compose 
+    - pip install requests
+
+machine:
+    environment:
+        SECRET_KEY: CI
+    services:
+        - docker
+
+test:
+  pre:
+    - docker-compose -f dockereve-master/docker-compose.yml build
+  override:
+    - docker-compose -f dockereve-master/docker-compose.yml up -d
+    - sleep 60
+    - python test/testGetPost.py
+    
