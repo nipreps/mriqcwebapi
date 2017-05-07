@@ -35,7 +35,24 @@ class TestCase(unittest.TestCase):
 
         self.assertTrue( count == numOfTestData )
 
-    def test_01_ConnectionStatus(self):
+    def test_01_GETAllData(self):
+        # 1. initialize param. change to others for later use
+        url = "http://localhost:80/scenarios"
+        log= logging.getLogger( "SomeTest.testSomething" )
+
+        inputCount = 0
+        for fileName in glob(pattern):
+            with open(fileName) as fp:
+                inputCount = inputCount + 1
+                inputData = json.load(fp) 
+                # POST request
+                postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
+        # GET request
+        getResponse = requests.get(url).json()
+        log.debug( "total: %r", getResponse['_meta']['total'] )
+        self.assertTrue( inputCount == getResponse['_meta']['total'] )
+
+    def test_02_ConnectionStatus(self):
          # 1. initialize param. change to others for later use
         url = "http://localhost:80/scenarios"
 
@@ -51,7 +68,7 @@ class TestCase(unittest.TestCase):
                 getResponse = requests.get( getURL(postResponse, url) )
                 self.assertTrue( getResponse.raise_for_status() == None )
 
-    def test_02_DataValid(self):
+    def test_03_DataValid(self):
         # 1. initialize param. change to others for later use
         url = "http://localhost:80/scenarios"
         
@@ -72,22 +89,6 @@ class TestCase(unittest.TestCase):
                     self.assertTrue( inputData[key] == queriedData[key] )
 
 
-    def test_03_GETAllData(self):
-        # 1. initialize param. change to others for later use
-        url = "http://localhost:80/scenarios"
-        log= logging.getLogger( "SomeTest.testSomething" )
-
-        inputCount = 0
-        for fileName in glob(pattern):
-            with open(fileName) as fp:
-                inputCount = inputCount + 1
-                inputData = json.load(fp) 
-                # POST request
-                postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
-        # GET request
-        getResponse = requests.get(url).json()
-        log.debug( "total: %r", getResponse['_meta']['total'] )
-        self.assertTrue( inputCount == getResponse['_meta']['total'] )
 
 if __name__ == '__main__':
     logging.basicConfig( stream=sys.stderr )
