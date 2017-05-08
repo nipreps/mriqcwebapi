@@ -30,8 +30,7 @@ class TestCase(unittest.TestCase):
 
         self.assertTrue( count == 0 )
 
-        for fileName in glob(pattern):
-            count = count + 1
+        count = len(glob(pattern))
 
         self.assertTrue( count == numOfTestData )
 
@@ -43,7 +42,7 @@ class TestCase(unittest.TestCase):
         inputCount = 0
         for fileName in glob(pattern):
             with open(fileName) as fp:
-                inputCount = inputCount + 1
+                inputCount += 1
                 inputData = json.load(fp) 
                 # POST request
                 postResponse = requests.post(url, data = json.dumps(inputData), headers = header)
