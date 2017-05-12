@@ -13,207 +13,203 @@ my_settings = {
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
             'schema': {
-
+            #required data if 'modality' == 'bold'
                 'modality': {
                     'type': 'string',
                     'required': True
                 },
-                if modality == "bold":
-                    'aor': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'aqi': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'dvars_nstd': {
-                        'type': 'float',
-                        'required': True
-                    },  
-                    'dvars_std': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'dvars_vstd': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'efc': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fber': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fd_mean': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fd_num': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fd_perc': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fwhm_avg': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fwhm_x': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fwhm_y': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'fwhm_z': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'gcor': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'gsr_x': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'gsr_y': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'task_id': {
-                        'type': 'string',
-                        'required': True
-                    },
-                    'size_t': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'size_x': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'size_y': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'size_z': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'snr': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'spacing_tr': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'spacing_x': {
-                        'type': 'float',
-                        'required': True
-                    },  
-                    'spacing_y': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'spacing_z': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_bg_k': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_bg_mean': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_bg_p05': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_bg_p95': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_bg_stdv': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_fg_k': {
-                        'type': 'float',
-                        'required': True    
-                    },
-                    'summary_fg_mean': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_fg_p05': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'summary_fg_p95': {
-                        'type': 'float',
-                        'required': True    
-                    },
-                    'summary_fg_stdv': {
-                        'type': 'float',
-                        'required': True
-                    },
-                    'tsnr': {
-                        'type': 'float',
-                        'required': True
-                    },
-                else:
-                    'aor': {'type': 'float'},
-                    'aqi': {'type': 'float'},
-                    'dvars_nstd': {'type': 'float'},
-                    'dvars_std': {'type': 'float'},
-                    'dvars_vstd': {'type': 'float'},
-                    'efc': {'type': 'float'},
-                    'fber': {'type': 'float'},
-                    'fd_mean': {'type': 'float'},
-                    'fd_num': {'type': 'float'},
-                    'fd_perc': {'type': 'float'},
-                    'fwhm_avg': {'type': 'float'},
-                    'fwhm_x': {'type': 'float'},
-                    'fwhm_y': {'type': 'float'},
-                    'fwhm_z': {'type': 'float'},
-                    'gcor': {'type': 'float'},
-                    'gsr_x': {'type': 'float'},
-                    'gsr_y': {'type': 'float'},
-                    'RepetitionTime': {'type': 'integer'},
-                    'TaskName': {'type': 'string'},
-                    'software': {'type': 'string'},
-                    'task_id': {'type': 'string'},
-                    'size_t': {'type': 'float'},
-                    'size_x': {'type': 'float'},
-                    'size_y': {'type': 'float'},
-                    'size_z': {'type': 'float'},
-                    'snr': {'type': 'float'},
-                    'spacing_tr': {'type': 'float'},
-                    'spacing_x': {'type': 'float'},
-                    'spacing_y': {'type': 'float'},
-                    'spacing_z': {'type': 'float'},
-                    'summary_bg_k': {'type': 'float'},
-                    'summary_bg_mean': {'type': 'float'},
-                    'summary_bg_p05': {'type': 'float'},
-                    'summary_bg_p95': {'type': 'float'},
-                    'summary_bg_stdv': {'type': 'float'},
-                    'summary_fg_k': {'type': 'float'},
-                    'summary_fg_mean': {'type': 'float'},
-                    'summary_fg_p05': {'type': 'float'},
-                    'summary_fg_p95': {'type': 'float'},
-                    'summary_fg_stdv': {'type': 'float'},
-                    'tsnr': {'type': 'float'},
+                'aor': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'aqi': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'dvars_nstd': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },  
+                'dvars_std': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'dvars_vstd': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'efc': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fber': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fd_mean': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fd_num': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fd_perc': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fwhm_avg': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fwhm_x': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fwhm_y': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'fwhm_z': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'gcor': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'gsr_x': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'gsr_y': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'task_id': {
+                    'type': 'string',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'size_t': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'size_x': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'size_y': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'size_z': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'snr': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'spacing_tr': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'spacing_x': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },  
+                'spacing_y': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'spacing_z': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_bg_k': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_bg_mean': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_bg_p05': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_bg_p95': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_bg_stdv': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_fg_k': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}   
+                },
+                'summary_fg_mean': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_fg_p05': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'summary_fg_p95': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}    
+                },
+                'summary_fg_stdv': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
+                'tsnr': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'bold'}
+                },
 
+                #required data regardless 'modality'
                 'subject_id': {
                     'type': 'string',
                     'required': True
@@ -414,7 +410,51 @@ my_settings = {
                     'type': 'string',
                     'required': True
                 },
-                # 'SliceTiming': {'type': 'list[float]'},
+                #optional data
+                'aor': {'type': 'float'},
+                'aqi': {'type': 'float'},
+                'dvars_nstd': {'type': 'float'},
+                'dvars_std': {'type': 'float'},
+                'dvars_vstd': {'type': 'float'},
+                'efc': {'type': 'float'},
+                'fber': {'type': 'float'},
+                'fd_mean': {'type': 'float'},
+                'fd_num': {'type': 'float'},
+                'fd_perc': {'type': 'float'},
+                'fwhm_avg': {'type': 'float'},
+                'fwhm_x': {'type': 'float'},
+                'fwhm_y': {'type': 'float'},
+                'fwhm_z': {'type': 'float'},
+                'gcor': {'type': 'float'},
+                'gsr_x': {'type': 'float'},
+                'gsr_y': {'type': 'float'},
+                'RepetitionTime': {'type': 'integer'},
+                'TaskName': {'type': 'string'},
+                'software': {'type': 'string'},
+                'task_id': {'type': 'string'},
+                'size_t': {'type': 'float'},
+                'size_x': {'type': 'float'},
+                'size_y': {'type': 'float'},
+                'size_z': {'type': 'float'},
+                'snr': {'type': 'float'},
+                'spacing_tr': {'type': 'float'},
+                'spacing_x': {'type': 'float'},
+                'spacing_y': {'type': 'float'},
+                'spacing_z': {'type': 'float'},
+                'summary_bg_k': {'type': 'float'},
+                'summary_bg_mean': {'type': 'float'},
+                'summary_bg_p05': {'type': 'float'},
+                'summary_bg_p95': {'type': 'float'},
+                'summary_bg_stdv': {'type': 'float'},
+                'summary_fg_k': {'type': 'float'},
+                'summary_fg_mean': {'type': 'float'},
+                'summary_fg_p05': {'type': 'float'},
+                'summary_fg_p95': {'type': 'float'},
+                'summary_fg_stdv': {'type': 'float'},
+                'tsnr': {'type': 'float'},
+
+
+                 # 'SliceTiming': {'type': 'list[float]'},
                 'DeviceSerialNumber': {'type': 'string'},
                 'EchoTime': {'type': 'float'},
                 'FlipAngle': {'type': 'integer'},
@@ -453,6 +493,9 @@ my_settings = {
                 'InstitutionAddress': {'type': 'string'},
                 'ConversionSoftware': {'type': 'string'},
                 'ConversionSoftwareVersion': {'type': 'string'},
+
+                
+               
             }
         }
     }
