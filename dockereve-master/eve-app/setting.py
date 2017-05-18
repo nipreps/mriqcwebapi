@@ -8,8 +8,8 @@ my_settings = {
     'MONGO_DBNAME': 'scenarios',
     'X_DOMAINS': '*',
     'DOMAIN': {
-         'bold': {
-            'item_title': 'bold',
+         'scenarios': {
+            'item_title': 'scenario',
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
             'schema': {
@@ -208,86 +208,8 @@ my_settings = {
                     'required': True,
                     'dependencies': {'modality': 'bold'}
                 },
-
-               
-
-                # optional data  regardless of modality
-                'AccelNumReferenceLines':  {'type': 'integer'},
-                'AccelerationFactorPE':  {'type': 'integer'},
-                'AcquisitionMatrix':  {'type': 'string'},
-                'DeviceSerialNumber': {'type': 'string'},
-                'EchoTime': {'type': 'float'},
-                'EchoTrainLength': {'type': 'integer'},
-                'FlipAngle': {'type': 'integer'},
-                'ImageType': {'type': 'string'},
-                'ImagingFrequency': {'type': 'integer'},
-                'InPlanePhaseEncodingDirection': {'type': 'string'},
-                'InversionTime': {'type': 'float'},
-                'MRAcquisitionType': {'type': 'string'},
-                'MagneticFieldStrength': {'type': 'integer'},
-                'ManufacturerModelName': {'type': 'string'},
-                'NumberOfAverages': {'type': 'integer'},
-                'NumberOfPhaseEncodingSteps': {'type': 'integer'},
-                'PatientPosition': {'type': 'string'},
-                'PercentPhaseFieldOfView': {'type': 'integer'},
-                'PercentSampling': {'type': 'integer'},
-                'PhaseEncodingDirection': {'type': 'string'},
-                'PixelBandwidth': {'type': 'integer'},
-                'ProtocolName': {'type': 'string'},
-                'ReceiveCoilName': {'type': 'string'},
-                'RepetitionTime': {'type': 'float'},
-                'ScanOptions': {'type': 'string'},
-                'ScanningSequence': {'type': 'string'},
-                'SequenceName': {'type': 'string'},
-                'SequenceVariant': {'type': 'string'},
-                'SoftwareVersions': {'type': 'string'},
-                'TotalScanTimeSec': {'type': 'integer'},
-                'TransmitCoilName': {'type': 'string'},
-                'VariableFlipAngleFlag': {'type': 'string'},
-
-                'ContrastBolusIngredient':  {'type': 'string'},
-                'Manufacturer': {'type': 'string'},
-                'HardcopyDeviceSoftwareVersion': {'type': 'string'},
-                'GradientSetType': {'type': 'string'},
-                'MRTransmitCoilSequence':{'type': 'string'},
-                'MatrixCoilMode': {'type': 'string'},
-                'CoilCombinationMethod': {'type': 'string'},
-                'PulseSequenceType': {'type': 'string'},
-                'PulseSequenceDetails': {'type': 'string'},
-                'NumberShots' :{'type': 'integer'},
-                'ParallelReductionFactorInPlane':{'type': 'float'},
-                'ParallelAcquisitionTechnique': {'type': 'string'},
-                'PartialFourier' :{'type': 'boolean'},
-                'PartialFourierDirection':{'type': 'string'},
-                'EffectiveEchoSpacing' :{'type': 'float'},
-                'TotalReadoutTime':{'type': 'float'},
-                'SliceEncodingDirection': {'type': 'string'},
-                'NumberOfVolumesDiscardedByScanner':{'type': 'float'},
-                'NumberOfVolumesDiscardedByUser':{'type': 'float'},
-                'DelayTime':{'type': 'float'},
-                'MultibandAccelerationFactor':{'type': 'float'},
-                'Instructions': {'type': 'string'},
-                'TaskDescription': {'type': 'string'},
-                'CogAtlasID' : {'type': 'string'},
-                'CogPOID': {'type': 'string'},
-                'InstitutionName': {'type': 'string'},
-                'InstitutionAddress': {'type': 'string'},
-                'ConversionSoftware': {'type': 'string'},
-                'ConversionSoftwareVersion': {'type': 'string'},
-            }
-        }
-        'T1w': {
-            'item_title': 'T1w',
-            'resource_methods': ['GET', 'POST'],
-            'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
-            'schema': {
-                'modality': {
-                        'type': 'string',
-                        'required': True
-                },
-               
                 #if modality == T1w, the fields below are required
-                'cjv':{
+               'cjv':{
                     'type': 'float',
                     'required': True,
                     'dependencies': {'modality': 'T1w'}
