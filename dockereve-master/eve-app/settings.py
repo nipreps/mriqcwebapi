@@ -8,16 +8,16 @@ my_settings = {
     'MONGO_DBNAME': 'scenarios',
     'X_DOMAINS': '*',
     'DOMAIN': {
-        'scenarios': {
+         'scenarios': {
             'item_title': 'scenario',
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
             'schema': {
-            #required data if 'modality' == 'bold'
                 'modality': {
-                    'type': 'string',
-                    'required': True
+                        'type': 'string',
+                        'required': True
                 },
+                #if modality == bold, the fields below are required
                 'aor': {
                     'type': 'float',
                     'required': True,
@@ -208,262 +208,357 @@ my_settings = {
                     'required': True,
                     'dependencies': {'modality': 'bold'}
                 },
-
-                #required data regardless 'modality'
-                'subject_id': {
-                    'type': 'string',
-                    'required': True
-                },
-                'md5sum': {
-                    'type': 'string',
-                    'required': True
-                },
-                'cjv':{
+                #if modality == T1w, the fields below are required
+               'cjv':{
                     'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'cnr':{
                     'type':'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'efc':{
+                    'type':'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'fber': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+
+                },
+                'fwhm_avg': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'fwhm_x':{
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'fwhm_y': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'fwhm_z': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'icvs_csf': {
                     'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'icvs_gm': {
                     'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'icvs_wm': {
                     'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'inu_med': {
                     'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'inu_range': {
                     'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+
+                # required data 
+                'md5sum': {
+                    'type': 'string',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'modality': {
+                    'type': 'string',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+
                 },
                 'mriqc_pred': {
                     'type': 'integer',
-                    'required': True
-                },
-                'version': {
-                    'type': 'string',
-                    'required': True
-                },
-                'qi_1': {
-                    'type': 'float',
-                    'required': True
-                },
-                'qi_2': {
-                    'type': 'float',
-                    'required': True
-                },
-                'rpve_csf': {
-                    'type': 'float',
-                    'required': True
-                },
-                'rpve_gm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'rpve_wm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'size_x': {
-                    'type': 'integer',
-                    'required': True
-                },
-                'size_y': {
-                    'type': 'integer',
-                    'required': True
-                },
-                'size_z': {
-                    'type': 'integer',
-                    'required': True
-                },
-                'snr_csf': {
-                    'type': 'float',
-                    'required': True
-                },
-                'snr_gm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'snr_total':{
-                    'type': 'float',
-                    'required': True
-                },
-                'snr_wm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'snrd_csf': {
-                    'type': 'float',
-                    'required': True
-                },
-                'snrd_gm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'snrd_total': {
-                    'type': 'float',
-                    'required': True
-                },
-                'snrd_wm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'spacing_x': {
-                    'type': 'float',
-                    'required': True
-                },
-                'spacing_y': {
-                    'type': 'float',
-                    'required': True
-                },
-                'spacing_z': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_csf_k': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_csf_mean': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_csf_p05': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_csf_p95': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_csf_stdv': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_gm_k': {
-                    'type': 'float',
-                    'required': True    
-                },
-                'summary_gm_mean': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_gm_p05': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_gm_p95': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_gm_stdv': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_wm_k': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_wm_mean':{
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_wm_p05': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_wm_p95': {
-                    'type': 'float',
-                    'required': True
-                },
-                'summary_wm_stdv': {
-                    'type': 'float',
-                    'required': True
-                },
-                'tpm_overlap_csf':{
-                    'type': 'float',
-                    'required': True
-                },
-                'tpm_overlap_gm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'tpm_overlap_wm': {
-                    'type': 'float',
-                    'required': True
-                },
-                'wm2max':{
-                    'type': 'float',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
                 'software': {
                     'type': 'string',
-                    'required': True
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
                 },
-                #optional data
-                'aor': {'type': 'float'},
-                'aqi': {'type': 'float'},
-                'dvars_nstd': {'type': 'float'},
-                'dvars_std': {'type': 'float'},
-                'dvars_vstd': {'type': 'float'},
-                'efc': {'type': 'float'},
-                'fber': {'type': 'float'},
-                'fd_mean': {'type': 'float'},
-                'fd_num': {'type': 'float'},
-                'fd_perc': {'type': 'float'},
-                'fwhm_avg': {'type': 'float'},
-                'fwhm_x': {'type': 'float'},
-                'fwhm_y': {'type': 'float'},
-                'fwhm_z': {'type': 'float'},
-                'gcor': {'type': 'float'},
-                'gsr_x': {'type': 'float'},
-                'gsr_y': {'type': 'float'},
-                'RepetitionTime': {'type': 'integer'},
-                'TaskName': {'type': 'string'},
-                'software': {'type': 'string'},
-                'task_id': {'type': 'string'},
-                'size_t': {'type': 'float'},
-                'size_x': {'type': 'float'},
-                'size_y': {'type': 'float'},
-                'size_z': {'type': 'float'},
-                'snr': {'type': 'float'},
-                'spacing_tr': {'type': 'float'},
-                'spacing_x': {'type': 'float'},
-                'spacing_y': {'type': 'float'},
-                'spacing_z': {'type': 'float'},
-                'summary_bg_k': {'type': 'float'},
-                'summary_bg_mean': {'type': 'float'},
-                'summary_bg_p05': {'type': 'float'},
-                'summary_bg_p95': {'type': 'float'},
-                'summary_bg_stdv': {'type': 'float'},
-                'summary_fg_k': {'type': 'float'},
-                'summary_fg_mean': {'type': 'float'},
-                'summary_fg_p05': {'type': 'float'},
-                'summary_fg_p95': {'type': 'float'},
-                'summary_fg_stdv': {'type': 'float'},
-                'tsnr': {'type': 'float'},
+                'subject_id': {
+                    'type': 'string',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'version': {
+                    'type': 'string',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+           
+                'qi_1': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'qi_2': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'rpve_csf': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'rpve_gm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'rpve_wm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'size_x': {
+                    'type': 'integer',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'size_y': {
+                    'type': 'integer',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'size_z': {
+                    'type': 'integer',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snr_csf': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snr_gm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snr_total':{
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snr_wm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snrd_csf': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snrd_gm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snrd_total': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'snrd_wm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'spacing_x': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'spacing_y': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'spacing_z': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_bg_k': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_bg_mean': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_bg_p05': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_bg_p95': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_bg_stdv': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_csf_k': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_csf_mean': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_csf_p05': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_csf_p95': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_csf_stdv': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_gm_k': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_gm_mean': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_gm_p05': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_gm_p95': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_gm_stdv': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_wm_k': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_wm_mean':{
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_wm_p05': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_wm_p95': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'summary_wm_stdv': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'tpm_overlap_csf':{
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'tpm_overlap_gm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'tpm_overlap_wm': {
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
+                'wm2max':{
+                    'type': 'float',
+                    'required': True,
+                    'dependencies': {'modality': 'T1w'}
+                },
 
-
-                 # 'SliceTiming': {'type': 'list[float]'},
+                # optional data  regardless of modality
+                'AccelNumReferenceLines':  {'type': 'integer'},
+                'AccelerationFactorPE':  {'type': 'integer'},
+                'AcquisitionMatrix':  {'type': 'string'},
                 'DeviceSerialNumber': {'type': 'string'},
                 'EchoTime': {'type': 'float'},
+                'EchoTrainLength': {'type': 'integer'},
                 'FlipAngle': {'type': 'integer'},
+                'ImageType': {'type': 'string'},
+                'ImagingFrequency': {'type': 'integer'},
+                'InPlanePhaseEncodingDirection': {'type': 'string'},
                 'InversionTime': {'type': 'float'},
+                'MRAcquisitionType': {'type': 'string'},
                 'MagneticFieldStrength': {'type': 'integer'},
                 'ManufacturerModelName': {'type': 'string'},
+                'NumberOfAverages': {'type': 'integer'},
+                'NumberOfPhaseEncodingSteps': {'type': 'integer'},
+                'PatientPosition': {'type': 'string'},
+                'PercentPhaseFieldOfView': {'type': 'integer'},
+                'PercentSampling': {'type': 'integer'},
                 'PhaseEncodingDirection': {'type': 'string'},
+                'PixelBandwidth': {'type': 'integer'},
+                'ProtocolName': {'type': 'string'},
                 'ReceiveCoilName': {'type': 'string'},
+                'RepetitionTime': {'type': 'float'},
+                'ScanOptions': {'type': 'string'},
+                'ScanningSequence': {'type': 'string'},
+                'SequenceName': {'type': 'string'},
+                'SequenceVariant': {'type': 'string'},
                 'SoftwareVersions': {'type': 'string'},
+                'TotalScanTimeSec': {'type': 'integer'},
+                'TransmitCoilName': {'type': 'string'},
+                'VariableFlipAngleFlag': {'type': 'string'},
+
                 'ContrastBolusIngredient':  {'type': 'string'},
                 'Manufacturer': {'type': 'string'},
                 'HardcopyDeviceSoftwareVersion': {'type': 'string'},
@@ -493,11 +588,7 @@ my_settings = {
                 'InstitutionAddress': {'type': 'string'},
                 'ConversionSoftware': {'type': 'string'},
                 'ConversionSoftwareVersion': {'type': 'string'},
-
-                
-               
             }
         }
     }
 }
-
