@@ -9,7 +9,7 @@ my_settings = {
     'X_DOMAINS': '*',
     'DOMAIN': {
          'bold': {
-            'item_title': 'bold-2',
+            'item_title': 'bold',
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
             'schema': {
@@ -237,7 +237,7 @@ my_settings = {
             } #end of schema
         },#end of bold
           'T1w': {
-            'item_title': 'T1w-',
+            'item_title': 'T1w',
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
             'schema': {
