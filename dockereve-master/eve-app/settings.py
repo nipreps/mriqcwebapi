@@ -524,7 +524,7 @@ my_settings = {
                 'InversionTime': {'type': 'float'},
                 'MRAcquisitionType': {'type': 'string'},
                 'MagneticFieldStrength': {'type': 'integer'},
-                'ManufacturersModelName': {'type': 'string'},
+                'ManufacturerModelName': {'type': 'string'},
                 'NumberOfAverages': {'type': 'integer'},
                 'NumberOfPhaseEncodingSteps': {'type': 'integer'},
                 'PatientPosition': {'type': 'string'},
