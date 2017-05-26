@@ -23,6 +23,7 @@ def getRequest(postResponse, url):
 
 ###### MAIN ######
 header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+authenticated_header = {**header, **{'Authorization': '<secret_token>'}}
 numOfTestData = 84
 urlBold = "http://localhost:80/bold"
 urlT1w  = "http://localhost:80/T1w"
@@ -38,7 +39,9 @@ class TestCase(unittest.TestCase):
                 inputCount += 1
                 inputData = json.load(fp) 
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = authenticated_header)
+                self.assertTrue( postResponse.raise_for_status() == None )
+
         # GET request
         # print requests.get(urlT1w)
         getResponse = requests.get(urlT1w).json()
@@ -54,7 +57,7 @@ class TestCase(unittest.TestCase):
                 inputData = json.load(fp) 
                 # print inputData
                 # POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = authenticated_header)
                 self.assertTrue( postResponse.raise_for_status() == None )
                 # GET request
                 getResponse = requests.get( getURL(postResponse, urlBold) )
@@ -67,7 +70,7 @@ class TestCase(unittest.TestCase):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
                 # POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = authenticated_header)
                 # print postResponse.status_code
                 self.assertTrue( postResponse.status_code == codeForInvalid )
 
@@ -80,7 +83,7 @@ class TestCase(unittest.TestCase):
                 inputData = json.load(fp) 
                 # print inputData
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = authenticated_header)
                 self.assertTrue( postResponse.raise_for_status() == None )
                 # GET request
                 getResponse = requests.get( getURL(postResponse, urlT1w) )
@@ -93,7 +96,7 @@ class TestCase(unittest.TestCase):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = authenticated_header)
                 # print postResponse.status_code
                 self.assertTrue( postResponse.status_code == codeForInvalid )
 
@@ -105,7 +108,7 @@ class TestCase(unittest.TestCase):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = authenticated_header)
                 self.assertTrue( postResponse.status_code == codeForInvalid )
 
     def test_06_T1wDataToBoldEndPoint(self):
@@ -115,7 +118,7 @@ class TestCase(unittest.TestCase):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
                 # POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = authenticated_header)
                 self.assertTrue( postResponse.status_code == codeForInvalid )
 
     def test_07_T1wDataValid(self):
@@ -124,7 +127,7 @@ class TestCase(unittest.TestCase):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
                 # 2. POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = authenticated_header)
 
                 # 3. GET request
                 queriedData = getRequest(postResponse, urlT1w)
@@ -142,7 +145,8 @@ class TestCase(unittest.TestCase):
             with open(fileName) as fp:
                 inputData = json.load(fp) 
                 # 2. POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
+                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = authenticated_header)
+                self.assertTrue( postResponse.raise_for_status() == None )
 
                 # 3. GET request
                 queriedData = getRequest(postResponse, urlBold)
