@@ -1,164 +1,181 @@
-import requests, json, unittest, os.path, logging, sys
+import requests
+import json
+import unittest
+import os.path
+import logging
+import sys
 from glob import glob
 
 # test data directory
 boldPattern = os.path.join('test/bold/validData', '*.json')
-T1wPattern  = os.path.join('test/T1w/validData', '*.json')
+T1wPattern = os.path.join('test/T1w/validData', '*.json')
 
 # missing field data directory
 boldMissingPattern = os.path.join('test/bold/missingField', '*.json')
-T1wMissingPattern  = os.path.join('test/T1w/missingField', '*.json')
+T1wMissingPattern = os.path.join('test/T1w/missingField', '*.json')
 
 
 # url for GET
-def getURL(postResponse, url):
-    dirID = postResponse.json()["_id"]
+def getURL(post_resp, url):
+    dirID = post_resp.json()["_id"]
     resURL = url + "/" + dirID
-    return resURL  
+    return resURL
 
-def getRequest(postResponse, url):
+
+def getRequest(post_resp, url):
     # GET
-    getResponse = requests.get(getURL(postResponse, url))
-    return getResponse.json()
+    get_resp = requests.get(getURL(post_resp, url))
+    return get_resp.json()
 
 ###### MAIN ######
 header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 numOfTestData = 84
 urlBold = "http://localhost:80/bold"
-urlT1w  = "http://localhost:80/T1w"
+urlT1w = "http://localhost:80/T1w"
 codeForInvalid = 422
 
-class TestCase(unittest.TestCase):
-    def test_00_GETAllData(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
 
-        inputCount = 0
-        for fileName in glob(T1wPattern):
-            with open(fileName) as fp:
-                inputCount += 1
-                inputData = json.load(fp) 
-                # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+class TestCase(unittest.TestCase):
+
+    def test_00_GETAllData(self):
+        log = logging.getLogger("SomeTest.testSomething")
+
+        input_count = 0
+        for file_name in glob(T1wPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
+
+            input_count += 1
+            # POST request
+            requests.post(
+                urlT1w, data=json.dumps(input_data), headers=header)
         # GET request
         # print requests.get(urlT1w)
-        getResponse = requests.get(urlT1w).json()
-        log.debug( "total: %r", getResponse['_meta']['total'] )
-        self.assertTrue( inputCount == getResponse['_meta']['total'] )
+        get_resp = requests.get(urlT1w).json()
+        log.debug("total: %d (input_count=%d)", get_resp['_meta']['total'], input_count)
+        self.assertTrue(input_count == get_resp['_meta']['total'])
 
     ########## Testing Bold ############
     def test_01_ConnectionStatus(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
-   
-        for fileName in glob(boldPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
-                # print inputData
-                # POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
-                self.assertTrue( postResponse.raise_for_status() == None )
-                # GET request
-                getResponse = requests.get( getURL(postResponse, urlBold) )
-                self.assertTrue( getResponse.raise_for_status() == None )
+        log = logging.getLogger("SomeTest.testSomething")
+
+        for file_name in glob(boldPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
+
+            # POST request
+            post_resp = requests.post(
+                urlBold, data=json.dumps(input_data), headers=header)
+            self.assertTrue(post_resp.raise_for_status() is None)
+            # GET request
+            get_resp = requests.get(getURL(post_resp, urlBold))
+            self.assertTrue(get_resp.raise_for_status() is None)
 
     def test_02_MissingFieldInput(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
-   
-        for fileName in glob(boldMissingPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
+        log = logging.getLogger("SomeTest.testSomething")
+
+        for file_name in glob(boldMissingPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
                 # POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
-                # print postResponse.status_code
-                self.assertTrue( postResponse.status_code == codeForInvalid )
+                post_resp = requests.post(
+                    urlBold, data=json.dumps(input_data), headers=header)
+                # print post_resp.status_code
+                self.assertTrue(post_resp.status_code == codeForInvalid)
 
     ########## Testing T1w ############
     def test_03_ConnectionStatus(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
-   
-        for fileName in glob(T1wPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
-                # print inputData
+        log = logging.getLogger("SomeTest.testSomething")
+
+        for file_name in glob(T1wPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
+                # print input_data
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
-                self.assertTrue( postResponse.raise_for_status() == None )
+                post_resp = requests.post(
+                    urlT1w, data=json.dumps(input_data), headers=header)
+                self.assertTrue(post_resp.raise_for_status() is None)
                 # GET request
-                getResponse = requests.get( getURL(postResponse, urlT1w) )
-                self.assertTrue( getResponse.raise_for_status() == None )
+                get_resp = requests.get(getURL(post_resp, urlT1w))
+                self.assertTrue(get_resp.raise_for_status() is None)
 
     def test_04_MissingFieldInput(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
-   
-        for fileName in glob(T1wMissingPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
+        log = logging.getLogger("SomeTest.testSomething")
+
+        for file_name in glob(T1wMissingPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
-                # print postResponse.status_code
-                self.assertTrue( postResponse.status_code == codeForInvalid )
+                post_resp = requests.post(
+                    urlT1w, data=json.dumps(input_data), headers=header)
+                # print post_resp.status_code
+                self.assertTrue(post_resp.status_code == codeForInvalid)
 
     ########## Cross Testing: send data to wrong end point ############
     def test_05_boldDataToT1wEndPoint(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
-   
-        for fileName in glob(boldPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
+        log = logging.getLogger("SomeTest.testSomething")
+
+        for file_name in glob(boldPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
                 # POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
-                self.assertTrue( postResponse.status_code == codeForInvalid )
+                post_resp = requests.post(
+                    urlT1w, data=json.dumps(input_data), headers=header)
+                self.assertTrue(post_resp.status_code == codeForInvalid)
 
     def test_06_T1wDataToBoldEndPoint(self):
-        log= logging.getLogger( "SomeTest.testSomething" )
-   
-        for fileName in glob(T1wPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
+        log = logging.getLogger("SomeTest.testSomething")
+
+        for file_name in glob(T1wPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
                 # POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
-                self.assertTrue( postResponse.status_code == codeForInvalid )
+                post_resp = requests.post(
+                    urlBold, data=json.dumps(input_data), headers=header)
+                self.assertTrue(post_resp.status_code == codeForInvalid)
 
     def test_07_T1wDataValid(self):
 
-        for fileName in glob(T1wPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
+        for file_name in glob(T1wPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
                 # 2. POST request
-                postResponse = requests.post(urlT1w, data = json.dumps(inputData), headers = header)
+                post_resp = requests.post(
+                    urlT1w, data=json.dumps(input_data), headers=header)
 
                 # 3. GET request
-                queriedData = getRequest(postResponse, urlT1w)
+                queried_data = getRequest(post_resp, urlT1w)
                 # 4. validate input data and queried data
-                for key in inputData:
+                for key in input_data:
                     # check missing key
-                    self.assertTrue(key in queriedData)
+                    self.assertTrue(key in queried_data)
                     # check key-value pair match
-                    self.assertTrue( inputData[key] == queriedData[key] )
-
+                    self.assertTrue(input_data[key] == queried_data[key])
 
     def test_08_boldDataValid(self):
 
-        for fileName in glob(boldPattern):
-            with open(fileName) as fp:
-                inputData = json.load(fp) 
+        for file_name in glob(boldPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
                 # 2. POST request
-                postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
+                post_resp = requests.post(
+                    urlBold, data=json.dumps(input_data), headers=header)
 
                 # 3. GET request
-                queriedData = getRequest(postResponse, urlBold)
+                queried_data = getRequest(post_resp, urlBold)
                 # 4. validate input data and queried data
-                for key in inputData:
+                for key in input_data:
                     # check missing key
-                    self.assertTrue(key in queriedData)
+                    self.assertTrue(key in queried_data)
                     # check key-value pair match
-                    self.assertTrue( inputData[key] == queriedData[key] )
+                    self.assertTrue(input_data[key] == queried_data[key])
 
 
 # ****************
 
 
 if __name__ == '__main__':
-    logging.basicConfig( stream=sys.stderr )
-    logging.getLogger( "SomeTest.testSomething" ).setLevel( logging.DEBUG )
+    logging.basicConfig(stream=sys.stderr)
+    logging.getLogger("SomeTest.testSomething").setLevel(logging.DEBUG)
 
     unittest.main()
