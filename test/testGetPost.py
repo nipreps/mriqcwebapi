@@ -156,6 +156,12 @@ class TestCase(unittest.TestCase):
                     self.assertTrue(key in queriedData)
                     # check key-value pair match
                     self.assertTrue( inputData[key] == queriedData[key] )
+					
+    def test_09_failedAuth(self):
+        with open(glob(boldPattern)[0]) as fp:
+            inputData = json.load(fp) 
+            postResponse = requests.post(urlBold, data = json.dumps(inputData), headers = header)
+            self.assertTrue( postResponse.status_code == 401 )
 
 
 # ****************
