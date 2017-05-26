@@ -103,10 +103,6 @@ bold_iqms_schema = {
         'type': 'float',
         'required': True
     },
-    'task_id': {
-        'type': 'string',
-        'required': True
-    },
     'size_t': {
         'type': 'float',
         'required': True
@@ -357,12 +353,10 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_bg_median': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_bg_mad': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_bg_p05': {
         'type': 'float',
@@ -377,8 +371,7 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_bg_n': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_csf_k': {
         'type': 'float',
@@ -389,12 +382,10 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_csf_median': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_csf_mad': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_csf_p05': {
         'type': 'float',
@@ -409,8 +400,7 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_csf_n': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_gm_k': {
         'type': 'float',
@@ -421,12 +411,10 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_gm_median': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_gm_mad': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_gm_p05': {
         'type': 'float',
@@ -441,8 +429,7 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_gm_n': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_wm_k': {
         'type': 'float',
@@ -453,12 +440,10 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_wm_median': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_wm_mad': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'summary_wm_p05': {
         'type': 'float',
@@ -473,8 +458,7 @@ t1w_iqms_schema = {
         'required': True
     },
     'summary_wm_n': {
-        'type': 'float',
-        'required': True
+        'type': 'float'
     },
     'tpm_overlap_csf': {
         'type': 'float',
