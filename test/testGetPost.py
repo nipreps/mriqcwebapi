@@ -23,7 +23,8 @@ def getRequest(postResponse, url):
 
 ###### MAIN ######
 header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-authenticated_header = {**header, **{'Authorization': '<secret_token>'}}
+authenticated_header = header.copy()
+header['Authorization'] = '<secret_token>'
 numOfTestData = 84
 urlBold = "http://localhost:80/bold"
 urlT1w  = "http://localhost:80/T1w"
