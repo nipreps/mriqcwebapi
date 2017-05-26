@@ -10,6 +10,7 @@ machine:
 dependencies:
   cache_directories:
     - "~/docker"
+
   pre:
     - mkdir $HOME/docker
     - docker load --input $HOME/docker/cache.tar || true
