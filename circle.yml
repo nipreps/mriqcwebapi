@@ -10,7 +10,6 @@ machine:
 dependencies:
   cache_directories:
     - "~/docker"
-
   pre:
     - mkdir $HOME/docker
     - docker load --input $HOME/docker/cache.tar || true
@@ -23,5 +22,5 @@ dependencies:
 
 test:
   override:
-    - docker-compose -f dockereve-master/docker-compose.yml up -d && sleep 60
+    - docker-compose -f dockereve-master/docker-compose.yml up -d && sleep 15
     - python test/testGetPost.py
