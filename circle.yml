@@ -11,7 +11,7 @@ dependencies:
   cache_directories:
     - "~/docker"
   pre:
-    - mkdir $HOME/docker
+    - mkdir -p $HOME/docker
     - docker load --input $HOME/docker/cache.tar || true
     - pip install docker-compose 
     - pip install requests
