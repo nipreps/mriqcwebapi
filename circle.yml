@@ -16,8 +16,8 @@ dependencies:
     - pip install docker-compose 
     - pip install requests
   override:
+    - docker-compose -f dockereve-master/docker-compose.yml pull
     - docker-compose -f dockereve-master/docker-compose.yml build
-    - docker pull mongo:latest
     - docker save -o $HOME/docker/cache.tar python:3.4-onbuild tutum/nginx:latest mongo:latest
 
 test:
