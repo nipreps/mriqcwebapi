@@ -1,8 +1,11 @@
 import os
 import re
+from copy import deepcopy
+
 get_mongo_host = re.match('tcp://(.*):(.*)', os.environ['MONGODB_PORT'])
 
 bids_schema = {
+    # BIDS identification bits
     'modality': {
         'type': 'string',
         'required': True
@@ -15,6 +18,68 @@ bids_schema = {
     'acq_id': {'type': 'string'},
     'task_id': {'type': 'string'},
     'run_id': {'type': 'string'},
+    # BIDS metadata
+    'AccelNumReferenceLines': {'type': 'integer'},
+    'AccelerationFactorPE': {'type': 'integer'},
+    'AcquisitionMatrix': {'type': 'string'},
+    'CogAtlasID': {'type': 'string'},
+    'CogPOID': {'type': 'string'},
+    'CoilCombinationMethod': {'type': 'string'},
+    'ContrastBolusIngredient': {'type': 'string'},
+    'ConversionSoftware': {'type': 'string'},
+    'ConversionSoftwareVersion': {'type': 'string'},
+    'DelayTime': {'type': 'float'},
+    'DeviceSerialNumber': {'type': 'string'},
+    'EchoTime': {'type': 'float'},
+    'EchoTrainLength': {'type': 'integer'},
+    'EffectiveEchoSpacing': {'type': 'float'},
+    'FlipAngle': {'type': 'integer'},
+    'GradientSetType': {'type': 'string'},
+    'HardcopyDeviceSoftwareVersion': {'type': 'string'},
+    'ImageType': {'type': 'string'},
+    'ImagingFrequency': {'type': 'integer'},
+    'InPlanePhaseEncodingDirection': {'type': 'string'},
+    'InstitutionAddress': {'type': 'string'},
+    'InstitutionName': {'type': 'string'},
+    'Instructions': {'type': 'string'},
+    'InversionTime': {'type': 'float'},
+    'MRAcquisitionType': {'type': 'string'},
+    'MRTransmitCoilSequence': {'type': 'string'},
+    'MagneticFieldStrength': {'type': 'integer'},
+    'Manufacturer': {'type': 'string'},
+    'ManufacturerModelName': {'type': 'string'},
+    'MatrixCoilMode': {'type': 'string'},
+    'MultibandAccelerationFactor': {'type': 'float'},
+    'NumberOfAverages': {'type': 'integer'},
+    'NumberOfPhaseEncodingSteps': {'type': 'integer'},
+    'NumberOfVolumesDiscardedByScanner': {'type': 'float'},
+    'NumberOfVolumesDiscardedByUser': {'type': 'float'},
+    'NumberShots': {'type': 'integer'},
+    'ParallelAcquisitionTechnique': {'type': 'string'},
+    'ParallelReductionFactorInPlane': {'type': 'float'},
+    'PartialFourier': {'type': 'boolean'},
+    'PartialFourierDirection': {'type': 'string'},
+    'PatientPosition': {'type': 'string'},
+    'PercentPhaseFieldOfView': {'type': 'integer'},
+    'PercentSampling': {'type': 'integer'},
+    'PhaseEncodingDirection': {'type': 'string'},
+    'PixelBandwidth': {'type': 'integer'},
+    'ProtocolName': {'type': 'string'},
+    'PulseSequenceDetails': {'type': 'string'},
+    'PulseSequenceType': {'type': 'string'},
+    'ReceiveCoilName': {'type': 'string'},
+    'RepetitionTime': {'type': 'float'},
+    'ScanOptions': {'type': 'string'},
+    'ScanningSequence': {'type': 'string'},
+    'SequenceName': {'type': 'string'},
+    'SequenceVariant': {'type': 'string'},
+    'SliceEncodingDirection': {'type': 'string'},
+    'SoftwareVersions': {'type': 'string'},
+    'TaskDescription': {'type': 'string'},
+    'TotalReadoutTime': {'type': 'float'},
+    'TotalScanTimeSec': {'type': 'integer'},
+    'TransmitCoilName': {'type': 'string'},
+    'VariableFlipAngleFlag': {'type': 'string'},
 }
 
 settings_schema = {
@@ -489,153 +554,53 @@ my_settings = {
             'item_title': 'bold',
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
-            'schema': {
-                # if modality == bold, the fields below are required
-                'TaskName': {
-                    'type': 'string',
-                    'required': True
-                },
-                'AccelNumReferenceLines':  {'type': 'integer'},
-                'AccelerationFactorPE':  {'type': 'integer'},
-                'AcquisitionMatrix':  {'type': 'string'},
-                'DeviceSerialNumber': {'type': 'string'},
-                'EchoTime': {'type': 'float'},
-                'EchoTrainLength': {'type': 'integer'},
-                'FlipAngle': {'type': 'integer'},
-                'ImageType': {'type': 'string'},
-                'ImagingFrequency': {'type': 'integer'},
-                'InPlanePhaseEncodingDirection': {'type': 'string'},
-                'InversionTime': {'type': 'float'},
-                'MRAcquisitionType': {'type': 'string'},
-                'MagneticFieldStrength': {'type': 'integer'},
-                'ManufacturerModelName': {'type': 'string'},
-                'NumberOfAverages': {'type': 'integer'},
-                'NumberOfPhaseEncodingSteps': {'type': 'integer'},
-                'PatientPosition': {'type': 'string'},
-                'PercentPhaseFieldOfView': {'type': 'integer'},
-                'PercentSampling': {'type': 'integer'},
-                'PhaseEncodingDirection': {'type': 'string'},
-                'PixelBandwidth': {'type': 'integer'},
-                'ProtocolName': {'type': 'string'},
-                'ReceiveCoilName': {'type': 'string'},
-                'RepetitionTime': {'type': 'float'},
-                'ScanOptions': {'type': 'string'},
-                'ScanningSequence': {'type': 'string'},
-                'SequenceName': {'type': 'string'},
-                'SequenceVariant': {'type': 'string'},
-                'SoftwareVersions': {'type': 'string'},
-                'TotalScanTimeSec': {'type': 'integer'},
-                'TransmitCoilName': {'type': 'string'},
-                'VariableFlipAngleFlag': {'type': 'string'},
-                'ContrastBolusIngredient':  {'type': 'string'},
-                'Manufacturer': {'type': 'string'},
-                'HardcopyDeviceSoftwareVersion': {'type': 'string'},
-                'GradientSetType': {'type': 'string'},
-                'MRTransmitCoilSequence': {'type': 'string'},
-                'MatrixCoilMode': {'type': 'string'},
-                'CoilCombinationMethod': {'type': 'string'},
-                'PulseSequenceType': {'type': 'string'},
-                'PulseSequenceDetails': {'type': 'string'},
-                'NumberShots': {'type': 'integer'},
-                'ParallelReductionFactorInPlane': {'type': 'float'},
-                'ParallelAcquisitionTechnique': {'type': 'string'},
-                'PartialFourier': {'type': 'boolean'},
-                'PartialFourierDirection': {'type': 'string'},
-                'EffectiveEchoSpacing': {'type': 'float'},
-                'TotalReadoutTime': {'type': 'float'},
-                'SliceEncodingDirection': {'type': 'string'},
-                'NumberOfVolumesDiscardedByScanner': {'type': 'float'},
-                'NumberOfVolumesDiscardedByUser': {'type': 'float'},
-                'DelayTime': {'type': 'float'},
-                'MultibandAccelerationFactor': {'type': 'float'},
-                'Instructions': {'type': 'string'},
-                'TaskDescription': {'type': 'string'},
-                'CogAtlasID': {'type': 'string'},
-                'CogPOID': {'type': 'string'},
-                'InstitutionName': {'type': 'string'},
-                'InstitutionAddress': {'type': 'string'},
-                'ConversionSoftware': {'type': 'string'},
-                'ConversionSoftwareVersion': {'type': 'string'},
-            }  # end of schema
         },  # end of bold
         'T1w': {
             'item_title': 'T1w',
             'resource_methods': ['GET', 'POST'],
             'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
-            'schema': {
-                # if modality == T1w, the fields below are required
-                'AccelNumReferenceLines':  {'type': 'integer'},
-                'AccelerationFactorPE':  {'type': 'integer'},
-                'AcquisitionMatrix':  {'type': 'string'},
-                'DeviceSerialNumber': {'type': 'string'},
-                'EchoTime': {'type': 'float'},
-                'EchoTrainLength': {'type': 'integer'},
-                'FlipAngle': {'type': 'integer'},
-                'ImageType': {'type': 'string'},
-                'ImagingFrequency': {'type': 'integer'},
-                'InPlanePhaseEncodingDirection': {'type': 'string'},
-                'InversionTime': {'type': 'float'},
-                'MRAcquisitionType': {'type': 'string'},
-                'MagneticFieldStrength': {'type': 'integer'},
-                'ManufacturerModelName': {'type': 'string'},
-                'NumberOfAverages': {'type': 'integer'},
-                'NumberOfPhaseEncodingSteps': {'type': 'integer'},
-                'PatientPosition': {'type': 'string'},
-                'PercentPhaseFieldOfView': {'type': 'integer'},
-                'PercentSampling': {'type': 'integer'},
-                'PhaseEncodingDirection': {'type': 'string'},
-                'PixelBandwidth': {'type': 'integer'},
-                'ProtocolName': {'type': 'string'},
-                'ReceiveCoilName': {'type': 'string'},
-                'RepetitionTime': {'type': 'float'},
-                'ScanOptions': {'type': 'string'},
-                'ScanningSequence': {'type': 'string'},
-                'SequenceName': {'type': 'string'},
-                'SequenceVariant': {'type': 'string'},
-                'SoftwareVersions': {'type': 'string'},
-                'TotalScanTimeSec': {'type': 'integer'},
-                'TransmitCoilName': {'type': 'string'},
-                'VariableFlipAngleFlag': {'type': 'string'},
-                'ContrastBolusIngredient':  {'type': 'string'},
-                'Manufacturer': {'type': 'string'},
-                'HardcopyDeviceSoftwareVersion': {'type': 'string'},
-                'GradientSetType': {'type': 'string'},
-                'MRTransmitCoilSequence': {'type': 'string'},
-                'MatrixCoilMode': {'type': 'string'},
-                'CoilCombinationMethod': {'type': 'string'},
-                'PulseSequenceType': {'type': 'string'},
-                'PulseSequenceDetails': {'type': 'string'},
-                'NumberShots': {'type': 'integer'},
-                'ParallelReductionFactorInPlane': {'type': 'float'},
-                'ParallelAcquisitionTechnique': {'type': 'string'},
-                'PartialFourier': {'type': 'boolean'},
-                'PartialFourierDirection': {'type': 'string'},
-                'EffectiveEchoSpacing': {'type': 'float'},
-                'TotalReadoutTime': {'type': 'float'},
-                'SliceEncodingDirection': {'type': 'string'},
-                'NumberOfVolumesDiscardedByScanner': {'type': 'float'},
-                'NumberOfVolumesDiscardedByUser': {'type': 'float'},
-                'DelayTime': {'type': 'float'},
-                'MultibandAccelerationFactor': {'type': 'float'},
-                'Instructions': {'type': 'string'},
-                'TaskDescription': {'type': 'string'},
-                'CogAtlasID': {'type': 'string'},
-                'CogPOID': {'type': 'string'},
-                'InstitutionName': {'type': 'string'},
-                'InstitutionAddress': {'type': 'string'},
-                'ConversionSoftware': {'type': 'string'},
-                'ConversionSoftwareVersion': {'type': 'string'},
-            }  # end of schema
         }  # end of T1w
 
     }
 }
 
 
-my_settings['DOMAIN']['bold']['schema'].update(bids_schema)
-my_settings['DOMAIN']['bold']['schema'].update(settings_schema)
-my_settings['DOMAIN']['bold']['schema'].update(bold_iqms_schema)
+my_settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
+my_settings['DOMAIN']['bold']['schema'].update(
+    {
+        'bids_metadata': {
+            'type': 'dict',
+            'required': True,
+            'schema': deepcopy(bids_schema)
+        },
+        'provenance': {
+            'type': 'dict',
+            'required': True,
+            'schema': deepcopy(settings_schema)
+        }
+    }
+)
 
-my_settings['DOMAIN']['T1w']['schema'].update(bids_schema)
-my_settings['DOMAIN']['T1w']['schema'].update(settings_schema)
-my_settings['DOMAIN']['T1w']['schema'].update(t1w_iqms_schema)
+my_settings['DOMAIN']['bold']['schema']['bids_metadata']['schema'].update({
+    'TaskName': {
+        'type': 'string',
+        'required': True
+    },
+})
+
+
+my_settings['DOMAIN']['T1w']['schema'] = deepcopy(t1w_iqms_schema)
+my_settings['DOMAIN']['T1w']['schema'].update(
+    {
+        'bids_metadata': {
+            'type': 'dict',
+            'required': True,
+            'schema': deepcopy(bids_schema)
+        },
+        'provenance': {
+            'type': 'dict',
+            'required': True,
+            'schema': deepcopy(settings_schema)
+        }
+    }
+)
