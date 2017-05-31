@@ -6,11 +6,17 @@ nginx:
     volumes:
         - /www/static
     volumes_from:
-        - web
+        - eve
     links:
-        - web:web
+        - eve:eve
+        - swagger_ui:swagger_ui
+        
+swagger_ui:
+    image: swaggerapi/swagger-ui:v3.0.12
+    environment:
+        - API_URL=http://${HOSTNAME}/docs/api
 
-web:
+eve:
     restart: always
     build: eve-app
     expose:
