@@ -16,4 +16,3 @@ test:
     - docker-compose -f dockereve-master/docker-compose.yml up -d
     - sleep 60
     - python test/testGetPost.py
-    

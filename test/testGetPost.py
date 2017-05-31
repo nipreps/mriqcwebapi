@@ -38,7 +38,7 @@ codeForInvalid = 422
 class TestCase(unittest.TestCase):
 
     def test_00_GETAllData(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         input_count = 0
         for file_name in glob(T1wPattern):
@@ -57,7 +57,7 @@ class TestCase(unittest.TestCase):
 
     ########## Testing Bold ############
     def test_01_ConnectionStatus(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         for file_name in glob(boldPattern):
             with open(file_name) as fp:
@@ -66,13 +66,19 @@ class TestCase(unittest.TestCase):
             # POST request
             post_resp = requests.post(
                 urlBold, data=json.dumps(input_data), headers=header)
-            self.assertTrue(post_resp.raise_for_status() is None)
+
+            if post_resp.raise_for_status() is not None:
+                log.debug('Response: %s', post_resp.json())
+                self.assertTrue(post_resp.raise_for_status() is None)
+
             # GET request
             get_resp = requests.get(getURL(post_resp, urlBold))
-            self.assertTrue(get_resp.raise_for_status() is None)
+            if get_resp.raise_for_status() is not None:
+                log.debug('Response: %s', get_resp.json())
+                self.assertTrue(get_resp.raise_for_status() is None)
 
     def test_02_MissingFieldInput(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         for file_name in glob(boldMissingPattern):
             with open(file_name) as fp:
@@ -85,22 +91,28 @@ class TestCase(unittest.TestCase):
 
     ########## Testing T1w ############
     def test_03_ConnectionStatus(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         for file_name in glob(T1wPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
-                # print input_data
-                # POST request
-                post_resp = requests.post(
-                    urlT1w, data=json.dumps(input_data), headers=header)
+            # print input_data
+            # POST request
+            post_resp = requests.post(
+                urlT1w, data=json.dumps(input_data), headers=header)
+
+            log.debug('Response: %s', post_resp.json())
+            if post_resp.raise_for_status() is not None:
                 self.assertTrue(post_resp.raise_for_status() is None)
-                # GET request
-                get_resp = requests.get(getURL(post_resp, urlT1w))
+
+            # GET request
+            get_resp = requests.get(getURL(post_resp, urlT1w))
+            if get_resp.raise_for_status() is not None:
+                log.debug('Response: %s', get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
     def test_04_MissingFieldInput(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         for file_name in glob(T1wMissingPattern):
             with open(file_name) as fp:
@@ -113,7 +125,7 @@ class TestCase(unittest.TestCase):
 
     ########## Cross Testing: send data to wrong end point ############
     def test_05_boldDataToT1wEndPoint(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         for file_name in glob(boldPattern):
             with open(file_name) as fp:
@@ -124,7 +136,7 @@ class TestCase(unittest.TestCase):
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
     def test_06_T1wDataToBoldEndPoint(self):
-        log = logging.getLogger("SomeTest.testSomething")
+        log = logging.getLogger("mriqcwebapi")
 
         for file_name in glob(T1wPattern):
             with open(file_name) as fp:
@@ -176,6 +188,6 @@ class TestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stderr)
-    logging.getLogger("SomeTest.testSomething").setLevel(logging.DEBUG)
+    logging.getLogger("mriqcwebapi").setLevel(logging.DEBUG)
 
     unittest.main()

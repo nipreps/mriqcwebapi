@@ -47,7 +47,7 @@ bids_schema = {
     'MRTransmitCoilSequence': {'type': 'string'},
     'MagneticFieldStrength': {'type': 'integer'},
     'Manufacturer': {'type': 'string'},
-    'ManufacturerModelName': {'type': 'string'},
+    'ManufacturersModelName': {'type': 'string'},
     'MatrixCoilMode': {'type': 'string'},
     'MultibandAccelerationFactor': {'type': 'float'},
     'NumberOfAverages': {'type': 'integer'},
@@ -82,7 +82,7 @@ bids_schema = {
     'VariableFlipAngleFlag': {'type': 'string'},
 }
 
-settings_schema = {
+prov_schema = {
     'version': {
         'type': 'string',
         'required': True
@@ -95,6 +95,15 @@ settings_schema = {
         'type': 'string',
         'required': True
     },
+    'settings': {
+        'type': 'dict',
+        'schema': {
+            'fd_thres': {'type': 'float'},
+            'hmc_fsl': {'type': 'boolean'},
+            'testing': {'type': 'boolean'}
+        },
+    },
+    'mriqc_pred': {'type': 'integer'},
 }
 
 bold_iqms_schema = {
@@ -107,6 +116,7 @@ bold_iqms_schema = {
         'required': True
 
     },
+    'dummy_trs': {'type': 'integer'},
     'dvars_nstd': {
         'type': 'float',
         'required': True
@@ -327,10 +337,6 @@ t1w_iqms_schema = {
     },
     'inu_range': {
         'type': 'float',
-        'required': True
-    },
-    'mriqc_pred': {
-        'type': 'integer',
         'required': True
     },
     'qi_1': {
@@ -568,7 +574,7 @@ my_settings = {
 my_settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
 my_settings['DOMAIN']['bold']['schema'].update(
     {
-        'bids_metadata': {
+        'bids_meta': {
             'type': 'dict',
             'required': True,
             'schema': deepcopy(bids_schema)
@@ -576,12 +582,12 @@ my_settings['DOMAIN']['bold']['schema'].update(
         'provenance': {
             'type': 'dict',
             'required': True,
-            'schema': deepcopy(settings_schema)
+            'schema': deepcopy(prov_schema)
         }
     }
 )
 
-my_settings['DOMAIN']['bold']['schema']['bids_metadata']['schema'].update({
+my_settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
     'TaskName': {
         'type': 'string',
         'required': True
@@ -592,7 +598,7 @@ my_settings['DOMAIN']['bold']['schema']['bids_metadata']['schema'].update({
 my_settings['DOMAIN']['T1w']['schema'] = deepcopy(t1w_iqms_schema)
 my_settings['DOMAIN']['T1w']['schema'].update(
     {
-        'bids_metadata': {
+        'bids_meta': {
             'type': 'dict',
             'required': True,
             'schema': deepcopy(bids_schema)
@@ -600,7 +606,7 @@ my_settings['DOMAIN']['T1w']['schema'].update(
         'provenance': {
             'type': 'dict',
             'required': True,
-            'schema': deepcopy(settings_schema)
+            'schema': deepcopy(prov_schema)
         }
     }
 )
