@@ -184,11 +184,12 @@ class TestCase(unittest.TestCase):
         for file_name in glob(boldPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
-                # 2. POST request
-                post_resp = requests.post(
-                    urlBold, data=json.dumps(input_data),
-                    headers=authenticated_header)
-                self.assertTrue(post_resp.raise_for_status() == None)
+            
+            # 2. POST request
+            post_resp = requests.post(
+                urlBold, data=json.dumps(input_data),
+                headers=authenticated_header)
+            self.assertTrue(post_resp.raise_for_status() == None)
 
             # 3. GET request
             queried_data = getRequest(post_resp, urlBold)
