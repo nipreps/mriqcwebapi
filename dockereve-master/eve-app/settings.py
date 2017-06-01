@@ -14,6 +14,7 @@ bids_schema = {
         'type': 'string',
         'required': True
     },
+    'session_id': {'type': 'string'},
     'run_id': {'type': 'string'},
     'acq_id': {'type': 'string'},
     'task_id': {'type': 'string'},
@@ -285,7 +286,7 @@ bold_iqms_schema = {
 
 }
 
-t1w_iqms_schema = {
+struct_iqms_schema = {
     'cjv': {
         'type': 'float',
         'required': True
@@ -301,7 +302,6 @@ t1w_iqms_schema = {
     'fber': {
         'type': 'float',
         'required': True
-
     },
     'fwhm_avg': {
         'type': 'float',
@@ -556,18 +556,19 @@ my_settings = {
     'MONGO_DBNAME': 'scenarios',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],
+    'RESOURCE_METHODS': ['GET', 'POST'],
+    'ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
-            'resource_methods': ['GET', 'POST'],
-            'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
-        },  # end of bold
+        },
         'T1w': {
             'item_title': 'T1w',
-            'resource_methods': ['GET', 'POST'],
-            'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
-        }  # end of T1w
+        },
+        'T2w': {
+            'item_title': 'T2w',
+        }
 
     }
 }
@@ -597,7 +598,7 @@ my_settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
 })
 
 
-my_settings['DOMAIN']['T1w']['schema'] = deepcopy(t1w_iqms_schema)
+my_settings['DOMAIN']['T1w']['schema'] = deepcopy(struct_iqms_schema)
 my_settings['DOMAIN']['T1w']['schema'].update(
     {
         'bids_meta': {
@@ -612,3 +613,6 @@ my_settings['DOMAIN']['T1w']['schema'].update(
         }
     }
 )
+
+my_settings['DOMAIN']['T2w']['schema'] = deepcopy(my_settings['DOMAIN']['T1w']['schema'])
+
