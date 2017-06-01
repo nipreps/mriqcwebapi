@@ -52,12 +52,12 @@ class TestCase(unittest.TestCase):
                                          headers=authenticated_header)
             self.assertTrue(postResponse.raise_for_status() == None)
 
-            # GET request
-            # print requests.get(urlT1w)
-            get_resp = requests.get(urlT1w).json()
-            log.debug("total: %d (input_count=%d)", get_resp['_meta']['total'],
-                      input_count)
-            self.assertTrue(input_count == get_resp['_meta']['total'])
+        # GET request
+        # print requests.get(urlT1w)
+        get_resp = requests.get(urlT1w).json()
+        log.debug("total: %d (input_count=%d)", get_resp['_meta']['total'],
+                  input_count)
+        self.assertTrue(input_count == get_resp['_meta']['total'])
 
 
     ########## Testing Bold ############
