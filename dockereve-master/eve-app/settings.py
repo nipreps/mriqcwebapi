@@ -554,6 +554,8 @@ my_settings = {
     'MONGO_HOST': get_mongo_host.group(1),
     'MONGO_PORT': get_mongo_host.group(2),
     'MONGO_DBNAME': 'scenarios',
+    'PUBLIC_METHODS': ['GET'],
+    'PUBLIC_ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
     'DOMAIN': {
         'bold': {

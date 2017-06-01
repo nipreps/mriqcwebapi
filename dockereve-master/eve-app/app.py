@@ -1,10 +1,15 @@
 from eve import Eve
+from eve.auth import TokenAuth
 from eve_swagger import swagger
 from settings import my_settings as ms
 import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-app = Eve(settings=ms)
+class TokenAuth(TokenAuth):
+    def check_auth(self, token, allowed_roles, resource, method):
+        return token == '<secret_token>'
+
+app = Eve(settings=ms, auth=TokenAuth)
 app.register_blueprint(swagger, url_prefix='/docs/api')
 app.add_url_rule('/docs/api', 'eve_swagger.index')
 
