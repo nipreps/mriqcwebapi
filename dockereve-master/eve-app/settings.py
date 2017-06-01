@@ -614,18 +614,5 @@ my_settings['DOMAIN']['T1w']['schema'].update(
     }
 )
 
-my_settings['DOMAIN']['T2w']['schema'] = deepcopy(struct_iqms_schema)
-my_settings['DOMAIN']['T2w']['schema'].update(
-    {
-        'bids_meta': {
-            'type': 'dict',
-            'required': True,
-            'schema': deepcopy(bids_schema)
-        },
-        'provenance': {
-            'type': 'dict',
-            'required': True,
-            'schema': deepcopy(prov_schema)
-        }
-    }
-)
+my_settings['DOMAIN']['T2w']['schema'] = deepcopy(my_settings['DOMAIN']['T1w']['schema'])
+
