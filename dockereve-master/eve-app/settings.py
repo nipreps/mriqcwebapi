@@ -286,7 +286,7 @@ bold_iqms_schema = {
 
 }
 
-t1w_iqms_schema = {
+struct_iqms_schema = {
     'cjv': {
         'type': 'float',
         'required': True
@@ -302,7 +302,6 @@ t1w_iqms_schema = {
     'fber': {
         'type': 'float',
         'required': True
-
     },
     'fwhm_avg': {
         'type': 'float',
@@ -563,10 +562,13 @@ my_settings = {
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
-        },  # end of bold
+        },
         'T1w': {
             'item_title': 'T1w',
-        }  # end of T1w
+        },
+        'T2w': {
+            'item_title': 'T2w',
+        }
 
     }
 }
@@ -596,7 +598,7 @@ my_settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
 })
 
 
-my_settings['DOMAIN']['T1w']['schema'] = deepcopy(t1w_iqms_schema)
+my_settings['DOMAIN']['T1w']['schema'] = deepcopy(struct_iqms_schema)
 my_settings['DOMAIN']['T1w']['schema'].update(
     {
         'bids_meta': {
@@ -612,7 +614,7 @@ my_settings['DOMAIN']['T1w']['schema'].update(
     }
 )
 
-my_settings['DOMAIN']['T2w']['schema'] = deepcopy(t1w_iqms_schema)
+my_settings['DOMAIN']['T2w']['schema'] = deepcopy(struct_iqms_schema)
 my_settings['DOMAIN']['T2w']['schema'].update(
     {
         'bids_meta': {
