@@ -14,6 +14,7 @@ bids_schema = {
         'type': 'string',
         'required': True
     },
+    'session_id': {'type': 'string'},
     'run_id': {'type': 'string'},
     'acq_id': {'type': 'string'},
     'task_id': {'type': 'string'},
@@ -556,17 +557,15 @@ my_settings = {
     'MONGO_DBNAME': 'scenarios',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],
+    'RESOURCE_METHODS': ['GET', 'POST'],
+    'ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
-            'resource_methods': ['GET', 'POST'],
-            'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
         },  # end of bold
         'T1w': {
             'item_title': 'T1w',
-            'resource_methods': ['GET', 'POST'],
-            'item_methods': ['GET', 'PATCH', 'PUT', 'DELETE'],
         }  # end of T1w
 
     }
@@ -599,6 +598,22 @@ my_settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
 
 my_settings['DOMAIN']['T1w']['schema'] = deepcopy(t1w_iqms_schema)
 my_settings['DOMAIN']['T1w']['schema'].update(
+    {
+        'bids_meta': {
+            'type': 'dict',
+            'required': True,
+            'schema': deepcopy(bids_schema)
+        },
+        'provenance': {
+            'type': 'dict',
+            'required': True,
+            'schema': deepcopy(prov_schema)
+        }
+    }
+)
+
+my_settings['DOMAIN']['T2w']['schema'] = deepcopy(t1w_iqms_schema)
+my_settings['DOMAIN']['T2w']['schema'].update(
     {
         'bids_meta': {
             'type': 'dict',
