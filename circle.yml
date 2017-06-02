@@ -6,6 +6,10 @@ dependencies:
 machine:
     environment:
         SECRET_KEY: CI
+        MONGODB_HOST:mongodb
+        MONGODB_PORT:27017
+        API_TOKEN:afaketoken
+        API_URL:http://example.com/url/to/docs
     services:
         - docker
 
@@ -15,5 +19,4 @@ test:
   override:
     - docker-compose -f dockereve-master/docker-compose.yml up -d
     - sleep 60
-    - export $(cat dockereve-master/.env | xargs)
     - python test/testGetPost.py
