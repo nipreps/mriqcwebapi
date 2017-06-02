@@ -13,11 +13,11 @@ nginx:
 
 swagger_ui:
     image: swaggerapi/swagger-ui:v3.0.12
-    env-file: .env
+    env_file: .env
 
 eve:
     restart: always
-    env-file: .env
+    env_file: .env
     build: eve-app
     expose:
         - 5000
