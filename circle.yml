@@ -15,4 +15,5 @@ test:
   override:
     - docker-compose -f dockereve-master/docker-compose.yml up -d
     - sleep 60
+    - source dockereve-master/.env
     - python test/testGetPost.py

@@ -31,10 +31,10 @@ def getRequest(post_resp, url):
 ###### MAIN ######
 header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 authenticated_header = header.copy()
-authenticated_header['Authorization'] = '<secret_token>'
+authenticated_header['Authorization'] = os.environ.get('API_TOKEN', '<secret_token>')
 numOfTestData = 84
-urlBold = "http://localhost:80/bold"
-urlT1w = "http://localhost:80/T1w"
+urlBold = "http://0.0.0.0:80/bold"
+urlT1w = "http://0.0.0.0:80/T1w"
 codeForInvalid = 422
 
 
