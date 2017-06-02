@@ -1,18 +1,26 @@
+machine:
+  pre:
+    - sudo curl -L -o /usr/bin/docker 'https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.1-circleci'
+    - sudo chmod 0755 /usr/bin/docker
+  environment:
+    SECRET_KEY: CI
+  services:
+    - docker
+
 dependencies:
-  override:
+  cache_directories:
+    - "~/docker"
+  pre:
+    - mkdir -p $HOME/docker
+    - docker load --input $HOME/docker/cache.tar || true
     - pip install docker-compose 
     - pip install requests
-
-machine:
-    environment:
-        SECRET_KEY: CI
-    services:
-        - docker
+  override:
+    - docker-compose -f dockereve-master/docker-compose.yml pull
+    - docker-compose -f dockereve-master/docker-compose.yml build
+    - docker save -o $HOME/docker/cache.tar swaggerapi/swagger-ui:v3.0.12 dockerevemaster_web:latest dockerevemaster_nginx:latest python:3.4-onbuild tutum/nginx:latest mongo:latest
 
 test:
-  pre:
-    - docker-compose -f dockereve-master/docker-compose.yml build
   override:
-    - docker-compose -f dockereve-master/docker-compose.yml up -d
-    - sleep 60
+    - docker-compose -f dockereve-master/docker-compose.yml up -d && sleep 15
     - python test/testGetPost.py
