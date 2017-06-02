@@ -549,6 +549,9 @@ struct_iqms_schema = {
 
 
 settings = {
+    'URL_PREFIX': 'api',
+    'API_VERSION': 'v1',
+    'ALLOWED_FILTERS': ['*'],
     'MONGO_HOST': os.environ.get('MONGODB_HOST', ''),
     'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
     'MONGO_DBNAME': 'mriqc_api',

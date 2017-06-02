@@ -20,7 +20,7 @@ app.add_url_rule('/docs/api', 'eve_swagger.index')
 # required. See http://swagger.io/specification/#infoObject for details.
 app.config['SWAGGER_INFO'] = {
     'title': 'MRIQC Web API',
-    'version': '0.1',
+    'version': 'v1',
     'description': 'MRI Quality Control Metrics Repository',
 }
 
