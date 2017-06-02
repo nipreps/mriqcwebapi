@@ -3,7 +3,7 @@ import os
 import re
 from flask_pymongo import MongoClient
 
-url = 'scenarios'
+url = 'mriqc_api'
 MONGO_HOST = os.environ.get("MONGODB_HOST", 'mongodb'),
 MONGO_PORT = int(os.environ.get("MONGODB_PORT", 27017))
 MONGO_DBNAME = 'test_DB'

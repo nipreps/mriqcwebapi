@@ -551,7 +551,7 @@ struct_iqms_schema = {
 settings = {
     'MONGO_HOST': os.environ.get('MONGODB_HOST', ''),
     'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
-    'MONGO_DBNAME': 'scenarios',
+    'MONGO_DBNAME': 'mriqc_api',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],
     'RESOURCE_METHODS': ['GET', 'POST'],
