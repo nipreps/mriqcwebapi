@@ -9,7 +9,7 @@ machine:
         MONGODB_HOST: mongodb
         MONGODB_PORT: 27017
         API_TOKEN: afaketoken
-        API_URL: "http://0.0.0.0/url/to/docs"
+        API_URL: "http://localhost/docs/api"
     services:
         - docker
 
