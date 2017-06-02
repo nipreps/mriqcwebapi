@@ -3,11 +3,9 @@ import os
 import re
 from flask_pymongo import MongoClient
 
-
-get_mongo_host = re.match('tcp://(.*):(.*)', os.environ['MONGODB_PORT'])
 url = 'scenarios'
-MONGO_HOST = get_mongo_host.group(1),
-MONGO_PORT = int(get_mongo_host.group(2))
+MONGO_HOST = os.environ.get("MONGODB_HOST", 'mongodb'),
+MONGO_PORT = int(os.environ.get("MONGODB_PORT", 27017))
 MONGO_DBNAME = 'test_DB'
 class settingsTestCase(TestMinimal):
 	def setUp(self):
