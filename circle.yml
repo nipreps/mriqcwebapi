@@ -6,6 +6,10 @@ dependencies:
 machine:
     environment:
         SECRET_KEY: CI
+        MONGODB_HOST: mongodb
+        MONGODB_PORT: 27017
+        API_TOKEN: afaketoken
+        API_URL: "http://localhost/docs/api"
     services:
         - docker
 

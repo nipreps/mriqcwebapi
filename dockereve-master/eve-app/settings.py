@@ -2,8 +2,6 @@ import os
 import re
 from copy import deepcopy
 
-get_mongo_host = re.match('tcp://(.*):(.*)', os.environ['MONGODB_PORT'])
-
 bids_schema = {
     # BIDS identification bits
     'modality': {
@@ -550,10 +548,10 @@ struct_iqms_schema = {
 }
 
 
-my_settings = {
-    'MONGO_HOST': get_mongo_host.group(1),
-    'MONGO_PORT': get_mongo_host.group(2),
-    'MONGO_DBNAME': 'scenarios',
+settings = {
+    'MONGO_HOST': os.environ.get('MONGODB_HOST', ''),
+    'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
+    'MONGO_DBNAME': 'mriqc_api',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],
     'RESOURCE_METHODS': ['GET', 'POST'],
@@ -574,8 +572,8 @@ my_settings = {
 }
 
 
-my_settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
-my_settings['DOMAIN']['bold']['schema'].update(
+settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
+settings['DOMAIN']['bold']['schema'].update(
     {
         'bids_meta': {
             'type': 'dict',
@@ -590,7 +588,7 @@ my_settings['DOMAIN']['bold']['schema'].update(
     }
 )
 
-my_settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
+settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
     'TaskName': {
         'type': 'string',
         'required': True
@@ -598,8 +596,8 @@ my_settings['DOMAIN']['bold']['schema']['bids_meta']['schema'].update({
 })
 
 
-my_settings['DOMAIN']['T1w']['schema'] = deepcopy(struct_iqms_schema)
-my_settings['DOMAIN']['T1w']['schema'].update(
+settings['DOMAIN']['T1w']['schema'] = deepcopy(struct_iqms_schema)
+settings['DOMAIN']['T1w']['schema'].update(
     {
         'bids_meta': {
             'type': 'dict',
@@ -614,5 +612,5 @@ my_settings['DOMAIN']['T1w']['schema'].update(
     }
 )
 
-my_settings['DOMAIN']['T2w']['schema'] = deepcopy(my_settings['DOMAIN']['T1w']['schema'])
+settings['DOMAIN']['T2w']['schema'] = deepcopy(settings['DOMAIN']['T1w']['schema'])
 
