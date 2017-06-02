@@ -10,7 +10,7 @@ nginx:
     links:
         - eve:eve
         - swagger_ui:swagger_ui
-        
+
 swagger_ui:
     image: swaggerapi/swagger-ui:v3.0.12
     environment:

@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+# emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
+# vi: set ft=python sts=4 ts=4 sw=4 et:
+
 from eve import Eve
 from eve.auth import TokenAuth
 from eve_swagger import swagger
 from settings import my_settings as ms
-import os
-script_dir = os.path.dirname(os.path.abspath(__file__))
 
 class TokenAuth(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
@@ -22,4 +24,3 @@ app.config['SWAGGER_INFO'] = {
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-
