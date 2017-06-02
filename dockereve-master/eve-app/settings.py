@@ -2,8 +2,6 @@ import os
 import re
 from copy import deepcopy
 
-get_mongo_host = re.match('tcp://(.*):(.*)', os.environ['MONGODB_PORT'])
-
 bids_schema = {
     # BIDS identification bits
     'modality': {
@@ -551,8 +549,8 @@ struct_iqms_schema = {
 
 
 my_settings = {
-    'MONGO_HOST': get_mongo_host.group(1),
-    'MONGO_PORT': get_mongo_host.group(2),
+    'MONGO_HOST': os.environ.get('MONGODB_HOST', ''),
+    'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
     'MONGO_DBNAME': 'scenarios',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],

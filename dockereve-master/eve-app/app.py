@@ -9,7 +9,7 @@ from settings import my_settings as ms
 
 class TokenAuth(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
-        return token == '<secret_token>'
+        return token == os.environ.get("API_TOKEN", '<secret_token>')
 
 app = Eve(settings=ms, auth=TokenAuth)
 app.register_blueprint(swagger, url_prefix='/docs/api')
