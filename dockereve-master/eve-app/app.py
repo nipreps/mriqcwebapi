@@ -9,9 +9,11 @@ from eve.auth import TokenAuth
 from eve_swagger import swagger
 from settings import settings
 
+API_TOKEN = os.environ.get("API_TOKEN")
+
 class TokenAuth(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
-        return token == os.environ.get("API_TOKEN", '<secret_token>')
+        return token == API_TOKEN
 
 app = Eve(settings=settings, auth=TokenAuth)
 app.register_blueprint(swagger, url_prefix='/docs/api')

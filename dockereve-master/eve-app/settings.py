@@ -103,6 +103,7 @@ prov_schema = {
         },
     },
     'mriqc_pred': {'type': 'integer'},
+    'email': {'type': 'string'},
 }
 
 bold_iqms_schema = {
