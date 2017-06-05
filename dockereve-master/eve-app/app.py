@@ -24,5 +24,7 @@ app.config['SWAGGER_INFO'] = {
     'description': 'MRI Quality Control Metrics Repository',
 }
 
+app.config['SWAGGER_HOST'] = 'mriqc.nimh.nih.gov'
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
