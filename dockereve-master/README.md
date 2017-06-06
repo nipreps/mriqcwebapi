@@ -5,19 +5,23 @@ Built on:
 * [Docker](https://www.docker.com/)
 
 ## Run
+Example of commands to run locally to start:
 ```sh
 $ docker-compose build
-$ docker-compose up
-$ curl -i -H "Content-Type: application/json" http://192.168.99.100:80/T1w
+$ docker-compose up -d
+$ curl -i -H "Content-Type: application/json" http://localhost/api/v1/T1w
 ```
 
 Swagger API documentation available at `http://localhost/docs`.
 
 ## Environment variables in Docker
-To properly run the file dockereve-master/.env needs to be created and populated with the following values:
+To properly run the file dockereve-master/.env needs to be populated the following are the default values:
 ```
-MONGODB_HOST=full url to mongodb host
-MONGODB_PORT=port that mongo is running on
-API_TOKEN=random string that is used for auth
-API_URL=full url to swagger docs in the api
+MONGODB_HOST=mongodb
+MONGODB_PORT=27017
+
+API_TOKEN=<secret_token>
+API_URL=http://localhost/docs/api
 ```
+
+If docker is running natively these values should work, otherwise API_URL may need to be updated from localhost accordingly.
