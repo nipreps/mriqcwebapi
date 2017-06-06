@@ -16,6 +16,9 @@ machine:
 test:
   pre:
     - mv dockereve-master/env_example dockereve-master/.env
+    - mkdir dockereve-master/nginx/.ssl
+    - touch dockereve-master/nginx/.ssl/mriqcep-selfsigned.crt
+    - touch dockereve-master/nginx/.ssl/mriqcep-selfsigned.key
     - docker-compose -f dockereve-master/docker-compose.yml build
   override:
     - docker-compose -f dockereve-master/docker-compose.yml up -d
