@@ -3,6 +3,7 @@
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
 import os
+import socket
 
 from eve import Eve
 from eve.auth import TokenAuth
