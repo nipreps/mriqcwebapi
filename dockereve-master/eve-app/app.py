@@ -3,7 +3,6 @@
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
 import os
-import socket
 
 from eve import Eve
 from eve.auth import TokenAuth
@@ -33,6 +32,9 @@ metrics contributed by users of MRIQC and hosted by
 the <a href="http://cmn.nimh.nih.gov">Data Science and Sharing Team</a> 
 at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>.""",
 }
+
+if os.environ.get('SWAGGER_HOST', None):
+    app.config['SWAGGER_HOST'] = os.environt.get('SWAGGER_HOST')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
