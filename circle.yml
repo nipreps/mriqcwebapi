@@ -15,7 +15,6 @@ machine:
 
 test:
   pre:
-    - mv dockereve-master/env_example dockereve-master/.env
     - mkdir dockereve-master/nginx/.ssl
     - touch dockereve-master/nginx/.ssl/mriqcep.crt
     - touch dockereve-master/nginx/.ssl/mriqcep.key

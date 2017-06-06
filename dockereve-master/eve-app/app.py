@@ -3,6 +3,7 @@
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
 import os
+import socket
 
 from eve import Eve
 from eve.auth import TokenAuth
@@ -25,8 +26,6 @@ app.config['SWAGGER_INFO'] = {
     'version': 'v1',
     'description': 'MRI Quality Control Metrics Repository',
 }
-
-app.config['SWAGGER_HOST'] = 'mriqc.nimh.nih.gov'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

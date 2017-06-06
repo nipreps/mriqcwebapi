@@ -560,8 +560,7 @@ settings = {
     'PUBLIC_ITEM_METHODS': ['GET'],
     'RESOURCE_METHODS': ['GET', 'POST'],
     'ITEM_METHODS': ['GET'],
-    'X_DOMAINS': ['http://localhost:8080', 'https://mriqc.nimh.nih.gov', 'http://mriqc.nimh.nih.gov', '*'],
-    'X_HEADERS': ['Content-Type', 'If-Match'],
+    'X_DOMAINS': '*',
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
