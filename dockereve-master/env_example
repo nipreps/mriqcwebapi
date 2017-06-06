@@ -1,0 +1,5 @@
+MONGODB_HOST=mongodb
+MONGODB_PORT=27017
+
+API_TOKEN=<secret_token>
+API_URL=http://localhost/docs/api
