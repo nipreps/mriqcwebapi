@@ -561,6 +561,7 @@ settings = {
     'RESOURCE_METHODS': ['GET', 'POST'],
     'ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
+    'X_HEADERS': ['Authorization', 'Content-Type'],
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
@@ -572,6 +573,39 @@ settings = {
             'item_title': 'T2w',
         }
 
+    }
+}
+
+settings['DOMAIN']['rating'] = {}
+settings['DOMAIN']['rating']['schema'] = {
+    'rating': {
+        'type': 'string',
+        'required': True
+    },
+    'name': {
+        'type': 'string',
+        'required': False
+    },
+    'comment': {
+        'type': 'string',
+        'required': False
+    },
+    'md5sum': {
+        'type': 'string',
+        'required': True
+    }
+}
+
+settings['DOMAIN']['rating_counts'] = {
+    'datasource':{
+        'source' : 'rating',
+        'aggregation' : {
+            'pipeline': [
+                {"$match": {"md5sum": "$value"}},
+                {"$unwind": "$rating"},
+                {"$group": {"_id": "$rating", "count": {"$sum": 1}}},
+            ],
+        }
     }
 }
 
