@@ -576,8 +576,7 @@ settings = {
     }
 }
 
-settings['DOMAIN']['rating'] = {}
-settings['DOMAIN']['rating']['schema'] = {
+rating_schema = {
     'rating': {
         'type': 'string',
         'required': True
@@ -622,7 +621,12 @@ settings['DOMAIN']['bold']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        }
+        },
+        'rating': {
+            'type': 'dict',
+            'required': False
+            'schema': deepcopy(rating_schema)
+        },
     }
 )
 
