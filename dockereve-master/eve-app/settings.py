@@ -35,7 +35,6 @@ bids_schema = {
     'FlipAngle': {'type': 'integer'},
     'GradientSetType': {'type': 'string'},
     'HardcopyDeviceSoftwareVersion': {'type': 'string'},
-    'ImageType': {'type': 'string'},
     'ImagingFrequency': {'type': 'integer'},
     'InPlanePhaseEncodingDirection': {'type': 'string'},
     'InstitutionAddress': {'type': 'string'},
