@@ -35,7 +35,6 @@ bids_schema = {
     'FlipAngle': {'type': 'integer'},
     'GradientSetType': {'type': 'string'},
     'HardcopyDeviceSoftwareVersion': {'type': 'string'},
-    'ImageType': {'type': 'string'},
     'ImagingFrequency': {'type': 'integer'},
     'InPlanePhaseEncodingDirection': {'type': 'string'},
     'InstitutionAddress': {'type': 'string'},
@@ -582,6 +581,7 @@ settings['DOMAIN']['bold']['schema'].update(
         'bids_meta': {
             'type': 'dict',
             'required': True,
+            'allow_unknown': True,
             'schema': deepcopy(bids_schema)
         },
         'provenance': {
@@ -606,6 +606,7 @@ settings['DOMAIN']['T1w']['schema'].update(
         'bids_meta': {
             'type': 'dict',
             'required': True,
+            'allow_unknown': True,
             'schema': deepcopy(bids_schema)
         },
         'provenance': {
