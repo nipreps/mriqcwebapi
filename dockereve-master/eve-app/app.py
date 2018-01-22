@@ -38,7 +38,7 @@ Poldrack Lab</a> at <a href="http://www.stanford.edu">Stanford University</a>.
 This website provides an api to a crowdsourced repository of MRI quality 
 metrics contributed by users of MRIQC and hosted by 
 the <a href="http://cmn.nimh.nih.gov">Data Science and Sharing Team</a> 
-at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>.""",
+at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>.</p>""",
 }
 
 if os.environ.get('SWAGGER_HOST', None):
