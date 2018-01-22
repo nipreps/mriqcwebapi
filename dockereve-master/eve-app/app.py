@@ -23,7 +23,15 @@ app.add_url_rule('/docs/api', 'eve_swagger.index')
 app.config['SWAGGER_INFO'] = {
     'title': 'MRIQC Web API',
     'version': 'v1',
-    'description': """<a href="http://mriqc.org">MRIQC</a> is an open-source tool that extracts 
+    'description': """<p>####################################################<br />
+Because of a lapse in government funding, the information on this website 
+may not be up to date, transactions submitted via the website may not be 
+processed, and the agency may not be able to respond to inquiries until 
+appropriations are enacted.<br />
+The NIH Clinical Center (the research hospital of NIH) is open. For more details
+about its operating status, please visit cc.nih.gov.<br />
+####################################################<br />
+    <a href="http://mriqc.org">MRIQC</a> is an open-source tool that extracts 
 no-reference image quality metrics from structural and 
 functional MRI data developed by the <a href="http://poldracklab.stanford.edu"> 
 Poldrack Lab</a> at <a href="http://www.stanford.edu">Stanford University</a>. 
