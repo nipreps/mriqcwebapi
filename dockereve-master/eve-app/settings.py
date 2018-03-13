@@ -595,9 +595,9 @@ rating_schema = {
 }
 
 settings['DOMAIN']['rating_counts'] = {
-    'datasource':{
-        'source' : 'rating',
-        'aggregation' : {
+    'datasource': {
+        'source': 'rating',
+        'aggregation': {
             'pipeline': [
                 {"$match": {"md5sum": "$value"}},
                 {"$unwind": "$rating"},
@@ -624,7 +624,7 @@ settings['DOMAIN']['bold']['schema'].update(
         },
         'rating': {
             'type': 'dict',
-            'required': False
+            'required': False,
             'schema': deepcopy(rating_schema)
         },
     }
@@ -651,9 +651,13 @@ settings['DOMAIN']['T1w']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        }
+        },
+        'rating': {
+            'type': 'dict',
+            'required': False,
+            'schema': deepcopy(rating_schema)
+        },
     }
 )
 
 settings['DOMAIN']['T2w']['schema'] = deepcopy(settings['DOMAIN']['T1w']['schema'])
-
