@@ -27,11 +27,11 @@ jobs:
             mkdir -p dockereve-master/nginx/.ssl
             touch dockereve-master/nginx/.ssl/mriqcep.crt
             touch dockereve-master/nginx/.ssl/mriqcep.key
+            docker pull mongo:latest swaggerapi/swagger-ui:v3.0.12 nginx:latest
             docker-compose -f dockereve-master/docker-compose.yml build
       - run:
           name: Start server
           command: docker-compose -f dockereve-master/docker-compose.yml up -d
-          background: true
       - run:
           name: Test MRIQC WebAPI
           command: python test/testGetPost.py
