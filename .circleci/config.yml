@@ -2,6 +2,8 @@ version: 2
 jobs:
 
   build_and_test:
+    working_directory: /home/circleci/mriqcwebapi
+
     machine:
       image: circleci/classic:201711-01
       
@@ -22,18 +24,17 @@ jobs:
       - run:
           name: Set-up dockereve
           command: |
-            cd mriqcwebapi
-            mkdir dockereve-master/nginx/.ssl
+            mkdir -p dockereve-master/nginx/.ssl
             touch dockereve-master/nginx/.ssl/mriqcep.crt
             touch dockereve-master/nginx/.ssl/mriqcep.key
             docker-compose -f dockereve-master/docker-compose.yml build
       - run:
           name: Start server
-          command: docker-compose -f mriqcwebapi/dockereve-master/docker-compose.yml up -d
+          command: docker-compose -f dockereve-master/docker-compose.yml up -d
           background: true
       - run:
           name: Test MRIQC WebAPI
-          command: python mriqcwebapi/test/testGetPost.py
+          command: python test/testGetPost.py
 
 workflows:
   version: 2
