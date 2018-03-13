@@ -1,0 +1,47 @@
+version: 2
+jobs:
+
+  build_and_test:
+    working_directory: /tmp/
+
+    machine:
+      image: circleci/classic:201711-01
+      
+    environment:
+      - SECRET_KEY: CI
+      - MONGODB_HOST: mongodb
+      - MONGODB_PORT: 27017
+      - API_TOKEN: <secret_token>
+      - API_URL: "http://localhost/docs/api"
+    
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install docker-compose
+            pip install requests
+      - run:
+          name: Set-up dockereve
+          command: |
+            cd /tmp/mriqcwebapi
+            mkdir dockereve-master/nginx/.ssl
+            touch dockereve-master/nginx/.ssl/mriqcep.crt
+            touch dockereve-master/nginx/.ssl/mriqcep.key
+            docker-compose -f dockereve-master/docker-compose.yml build
+      - run:
+          name: Start server
+          command: docker-compose -f /tmp/mriqcwebapi/dockereve-master/docker-compose.yml up -d
+          background: true
+      - run:
+          name: Test MRIQC WebAPI
+          command: python test/testGetPost.py
+
+workflows:
+  version: 2
+  webapi:
+    jobs:
+      - build_and_test:
+          filters:
+            tags:
+              only: /.*/
