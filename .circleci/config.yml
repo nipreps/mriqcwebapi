@@ -2,8 +2,6 @@ version: 2
 jobs:
 
   build_and_test:
-    working_directory: /home/circleci
-
     machine:
       image: circleci/classic:201711-01
       
