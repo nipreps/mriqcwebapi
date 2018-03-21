@@ -593,6 +593,11 @@ rating_schema = {
         'required': True
     }
 }
+settings['DOMAIN']['rating'] ={
+    'type': 'dict',
+    'required': False,
+    'schema': deepcopy(rating_schema)
+}
 
 settings['DOMAIN']['rating_counts'] = {
     'datasource': {
@@ -650,11 +655,6 @@ settings['DOMAIN']['T1w']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        },
-        'rating': {
-            'type': 'dict',
-            'required': False,
-            'schema': deepcopy(rating_schema)
         },
     }
 )
