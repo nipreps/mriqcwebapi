@@ -608,7 +608,6 @@ settings['DOMAIN']['rating_counts'] = {
     }
 }
 
-
 settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
 settings['DOMAIN']['bold']['schema'].update(
     {
