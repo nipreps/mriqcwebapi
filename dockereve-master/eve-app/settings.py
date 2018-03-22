@@ -560,6 +560,7 @@ settings = {
     'RESOURCE_METHODS': ['GET', 'POST'],
     'ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
+    'X_HEADERS': ['Authorization', 'Content-Type'],
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
@@ -574,6 +575,42 @@ settings = {
     }
 }
 
+rating_schema = {
+    'rating': {
+        'type': 'string',
+        'required': True
+    },
+    'name': {
+        'type': 'string',
+        'required': False
+    },
+    'comment': {
+        'type': 'string',
+        'required': False
+    },
+    'md5sum': {
+        'type': 'string',
+        'required': True
+    }
+}
+settings['DOMAIN']['rating'] ={
+    'type': 'dict',
+    'required': False,
+    'schema': deepcopy(rating_schema)
+}
+
+settings['DOMAIN']['rating_counts'] = {
+    'datasource': {
+        'source': 'rating',
+        'aggregation': {
+            'pipeline': [
+                {"$match": {"md5sum": "$value"}},
+                {"$unwind": "$rating"},
+                {"$group": {"_id": "$rating", "count": {"$sum": 1}}},
+            ],
+        }
+    }
+}
 
 settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
 settings['DOMAIN']['bold']['schema'].update(
@@ -588,7 +625,12 @@ settings['DOMAIN']['bold']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        }
+        },
+        'rating': {
+            'type': 'dict',
+            'required': False,
+            'schema': deepcopy(rating_schema)
+        },
     }
 )
 
@@ -613,9 +655,8 @@ settings['DOMAIN']['T1w']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        }
+        },
     }
 )
 
 settings['DOMAIN']['T2w']['schema'] = deepcopy(settings['DOMAIN']['T1w']['schema'])
-

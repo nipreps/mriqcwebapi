@@ -9,6 +9,7 @@ from glob import glob
 # test data directory
 boldPattern = os.path.join('test/bold/validData', '*.json')
 T1wPattern = os.path.join('test/T1w/validData', '*.json')
+ratingPattern = os.path.join('test/rating/validData', '*.json')
 
 # missing field data directory
 boldMissingPattern = os.path.join('test/bold/missingField', '*.json')
@@ -35,6 +36,8 @@ authenticated_header['Authorization'] = os.environ.get('API_TOKEN', '<secret_tok
 numOfTestData = 84
 urlBold = "http://0.0.0.0:80/api/v1/bold"
 urlT1w = "http://0.0.0.0:80/api/v1/T1w"
+urlRating = "http://0.0.0.0:80/api/v1/rating"
+urlRatingCounts = 'http://0.0.0.0:80/api/v1/rating_counts?{}'
 codeForInvalid = 422
 
 
@@ -208,6 +211,28 @@ class TestCase(unittest.TestCase):
                                          headers=header)
             self.assertTrue(postResponse.status_code == 401)  # ****************
 
+    def test_10_ratingDataValid(self):
+        for file_name in glob(ratingPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
+
+                # 2. POST request
+                post_resp = requests.post(
+                    urlRating, data=json.dumps(input_data),
+                    headers=authenticated_header)
+                self.assertTrue(post_resp.raise_for_status() is None)
+
+        # retrive counts of ratings we just submitted
+        get_resp = requests.get(
+            urlRatingCounts.format('aggregate={"$value":"57cd35190da3c813a3c3dadccd8a4ad7"}'),
+            headers=authenticated_header
+        )
+        data = get_resp.json()
+        for elem in data['_items']:
+            if elem['_id'] == "good":
+                self.assertTrue(elem['count'] == 3)
+            if elem['_id'] == "bad":
+                self.assertTrue(elem['count'] == 1)
 
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stderr)
