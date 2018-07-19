@@ -19,8 +19,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip3 install docker-compose
-            pip3 install requests
+            pip install docker-compose
+            pip install requests
       - run:
           name: Set-up dockereve
           command: |
