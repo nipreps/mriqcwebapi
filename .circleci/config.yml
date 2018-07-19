@@ -19,8 +19,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install docker-compose
-            pip install requests
+            pip3 install docker-compose
+            pip3 install requests
       - run:
           name: Set-up dockereve
           command: |
@@ -36,7 +36,7 @@ jobs:
           command: docker-compose -f dockereve-master/docker-compose.yml up -d
       - run:
           name: Test MRIQC WebAPI
-          command: python test/testGetPost.py
+          command: python3 test/testGetPost.py
 
 workflows:
   version: 2
