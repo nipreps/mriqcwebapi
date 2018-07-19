@@ -1,5 +1,4 @@
 import os
-import re
 from copy import deepcopy
 
 bids_schema = {
@@ -553,7 +552,7 @@ settings = {
     'API_VERSION': 'v1',
     'ALLOWED_FILTERS': ['*'],
     'MONGO_HOST': os.environ.get('MONGODB_HOST', ''),
-    'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
+    'MONGO_PORT': int(os.environ.get('MONGODB_PORT', '')),
     'MONGO_DBNAME': 'mriqc_api',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],

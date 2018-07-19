@@ -16,7 +16,7 @@ nginx:
         - swagger_ui:swagger_ui
 
 swagger_ui:
-    image: swaggerapi/swagger-ui:v3.0.12
+    image: swaggerapi/swagger-ui:latest
     env_file: .env
 
 eve:

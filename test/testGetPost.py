@@ -29,7 +29,7 @@ def getRequest(post_resp, url):
     return get_resp.json()
 
 
-###### MAIN ######
+# MAIN ######
 header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 authenticated_header = header.copy()
 authenticated_header['Authorization'] = os.environ.get('API_TOKEN', '<secret_token>')
@@ -62,8 +62,7 @@ class TestCase(unittest.TestCase):
                   input_count)
         self.assertTrue(input_count == get_resp['_meta']['total'])
 
-
-    ########## Testing Bold ############
+    # Testing Bold ############
     def test_01_ConnectionStatus(self):
         log = logging.getLogger("mriqcwebapi")
 
@@ -85,10 +84,7 @@ class TestCase(unittest.TestCase):
                 log.debug('Response: %s', get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
-
     def test_02_MissingFieldInput(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(boldMissingPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -99,8 +95,7 @@ class TestCase(unittest.TestCase):
                 # print post_resp.status_code
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
-
-    ########## Testing T1w ############
+    # Testing T1w ############
     def test_03_ConnectionStatus(self):
         log = logging.getLogger("mriqcwebapi")
 
@@ -122,10 +117,7 @@ class TestCase(unittest.TestCase):
                 log.debug('Response: %s', get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
-
     def test_04_MissingFieldInput(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(T1wMissingPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -136,11 +128,8 @@ class TestCase(unittest.TestCase):
                 # print post_resp.status_code
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
-
-    ########## Cross Testing: send data to wrong end point ############
+    # Cross Testing: send data to wrong end point ############
     def test_05_boldDataToT1wEndPoint(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(boldPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -150,10 +139,7 @@ class TestCase(unittest.TestCase):
                     headers=authenticated_header)
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
-
     def test_06_T1wDataToBoldEndPoint(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(T1wPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -162,7 +148,6 @@ class TestCase(unittest.TestCase):
                     urlBold, data=json.dumps(input_data),
                     headers=authenticated_header)
                 self.assertTrue(post_resp.status_code == codeForInvalid)
-
 
     def test_07_T1wDataValid(self):
         for file_name in glob(T1wPattern):
@@ -181,7 +166,6 @@ class TestCase(unittest.TestCase):
                     self.assertTrue(key in queried_data)
                     # check key-value pair match
                     self.assertTrue(input_data[key] == queried_data[key])
-
 
     def test_08_boldDataValid(self):
         for file_name in glob(boldPattern):
@@ -202,7 +186,6 @@ class TestCase(unittest.TestCase):
                 self.assertTrue(key in queried_data)
                 # check key-value pair match
                 self.assertTrue(input_data[key] == queried_data[key])
-
 
     def test_09_failedAuth(self):
         with open(glob(boldPattern)[0]) as fp:
@@ -233,6 +216,7 @@ class TestCase(unittest.TestCase):
                 self.assertTrue(elem['count'] == 3)
             if elem['_id'] == "bad":
                 self.assertTrue(elem['count'] == 1)
+
 
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stderr)
