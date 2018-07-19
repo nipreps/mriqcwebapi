@@ -2,16 +2,6 @@
   "bids_meta": {
     "modality": "T1w",
     "subject_id": "50785",
-    "ImageType": [
-        "ORIGINAL",
-        "PRIMARY",
-        "M",
-        "MB",
-        "ND",
-        "NORM",
-        "MOSAIC"
-    ]
-  },
   "cjv": 0.3881841572763748,
   "cnr": 3.139893975583801,
   "efc": 0.7756479415644941,
