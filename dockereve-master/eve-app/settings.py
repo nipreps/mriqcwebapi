@@ -1,5 +1,4 @@
 import os
-import re
 from copy import deepcopy
 
 bids_schema = {
