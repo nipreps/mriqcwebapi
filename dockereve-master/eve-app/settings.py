@@ -592,6 +592,36 @@ rating_schema = {
         'required': True
     }
 }
+
+nipype_schema = {
+    'interface_class_name': {
+        'type': 'string',
+        'required': True
+    },
+    'version': {
+        'type': 'string',
+        'required': True
+    },
+    'mem_peak_gb': {
+        'type': 'float',
+        'required': True
+    },
+    'duration_sec': {
+        'type': 'float',
+        'required': True
+    },
+    'inputs': {
+        'type': 'dict',
+        'required': True
+    }
+}
+
+settings['DOMAIN']['nipype_telemetry'] = {
+    'type': 'dict',
+    'required': False,
+    'schema': deepcopy(nipype_schema)
+}
+
 settings['DOMAIN']['rating'] ={
     'type': 'dict',
     'required': False,
