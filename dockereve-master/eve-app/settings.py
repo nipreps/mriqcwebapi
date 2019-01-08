@@ -42,7 +42,7 @@ bids_schema = {
     'InversionTime': {'type': 'float'},
     'MRAcquisitionType': {'type': 'string'},
     'MRTransmitCoilSequence': {'type': 'string'},
-    'MagneticFieldStrength': {'type': 'integer'},
+    'MagneticFieldStrength': {'type': 'float'},
     'Manufacturer': {'type': 'string'},
     'ManufacturersModelName': {'type': 'string'},
     'MatrixCoilMode': {'type': 'string'},
