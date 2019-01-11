@@ -4,7 +4,7 @@
   "bids_meta": {
     "EchoTime": 0.035,
     "FlipAngle": 90,
-    "MagneticFieldStrength": 3,
+    "MagneticFieldStrength": 3.0,
     "Manufacturer": "Siemens",
     "ManufacturersModelName": "Magnetom Trio",
     "PulseSequenceType": "single-shot echo-planar",
