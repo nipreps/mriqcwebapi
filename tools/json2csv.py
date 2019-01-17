@@ -6,16 +6,20 @@ import json
 import numpy as np
 import pandas as pd
 
+
 def get_parser():
     """Build parser object"""
     from argparse import ArgumentParser
     from argparse import RawTextHelpFormatter
-    
+
     parser = ArgumentParser(description='MRIQC-WebAPI: massaging bson dumps',
                             formatter_class=RawTextHelpFormatter)
     parser.add_argument('input_file', action='store', type=Path, help='input')
     parser.add_argument('output_file', action='store', type=Path, help='output')
+    parser.add_argument('--no-dedup', action='store_true', default=False,
+                        help='do not deduplicate entries')
     return parser
+
 
 def main():
     args = get_parser().parse_args()
@@ -30,6 +34,21 @@ def main():
             except:
                 print("Error reading: ", entry.strip())
 
+    if args.no_dedup:  # processing ratings
+        data = defaultdict(list, {})
+        for entry in dictlist:
+            data['created'] += [entry['_created']['$date'] or '']
+            data['updated'] += [entry['_updated']['$date'] or '']
+            data['rating'] += [entry['rating']]
+            data['md5sum'] += [entry['md5sum']]
+            data['name'] += [entry['name'] or '']
+            data['comment'] += [entry['comment'] or '']
+
+        pd.DataFrame(data)[['md5sum', 'rating', 'created', 'updated', 'name', 'comment']].to_csv(
+            str(args.output_file), index=None)
+        return 0
+
+
     def emptylist():
         """Create an array of NaNs of the same size as currently
         stored entries"""
@@ -40,7 +59,7 @@ def main():
         md5sum = entry['provenance']['md5sum']
         if not md5sum:
             continue
-    
+
         data['md5sum'] += [md5sum]
         keys = []
         for key, val in entry.items():
@@ -61,7 +80,9 @@ def main():
 
     df = pd.DataFrame(data)
     origcols = df.columns.ravel().tolist()
-    iqms = list(set(origcols) - set(['md5sum'] + [k for k in origcols if k.startswith('bids') or k.startswith('provenance') or k.startswith('_')]))
+    iqms = list(set(origcols) - set(['md5sum'] + [
+        k for k in origcols if k.startswith('bids') or k.startswith('provenance') or
+        k.startswith('_')]))
     cols = ['md5sum', '_created_$date'] + iqms + list(sorted(
         [k for k in origcols if k.startswith('provenance') or k.startswith('bids')]))
     df = df[cols]
@@ -70,6 +91,6 @@ def main():
     df.to_csv(str(args.output_file), index=None)
     return 0
 
+
 if __name__ == '__main__':
     main()
-
