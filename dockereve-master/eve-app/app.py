@@ -6,7 +6,7 @@ import os
 
 from eve import Eve
 from eve.auth import TokenAuth
-from eve_swagger import swagger
+from eve_swagger import get_swagger_blueprint
 from settings import settings
 
 API_TOKEN = os.environ.get("API_TOKEN")
@@ -18,6 +18,7 @@ class TokenAuth(TokenAuth):
 
 
 app = Eve(settings=settings, auth=TokenAuth)
+swagger = get_swagger_blueprint()
 app.register_blueprint(swagger, url_prefix='/docs/api')
 app.add_url_rule('/docs/api', 'eve_swagger.index')
 
