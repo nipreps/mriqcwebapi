@@ -48,7 +48,9 @@ jobs:
             docker-compose -f dockereve-master/docker-compose.yml build
       - run:
           name: Start server
-          command: docker-compose -f dockereve-master/docker-compose.yml up
+          command: |
+            docker system prune -f
+            docker-compose -f dockereve-master/docker-compose.yml up
           background: true
 
       - run:
