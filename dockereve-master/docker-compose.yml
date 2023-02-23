@@ -51,9 +51,8 @@ services:
   mongodb:
     image: mongo:latest
     restart: unless-stopped
-    command: mongod --port 27018
     ports:
-      - "27018:27018"
+      - "27017:27017"
     networks:
       - mynet
 
