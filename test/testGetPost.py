@@ -9,6 +9,7 @@ from glob import glob
 # test data directory
 boldPattern = os.path.join('test/bold/validData', '*.json')
 T1wPattern = os.path.join('test/T1w/validData', '*.json')
+ratingPattern = os.path.join('test/rating/validData', '*.json')
 
 # missing field data directory
 boldMissingPattern = os.path.join('test/bold/missingField', '*.json')
@@ -28,13 +29,15 @@ def getRequest(post_resp, url):
     return get_resp.json()
 
 
-###### MAIN ######
+# MAIN ######
 header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 authenticated_header = header.copy()
 authenticated_header['Authorization'] = os.environ.get('API_TOKEN', '<secret_token>')
 numOfTestData = 84
 urlBold = "http://0.0.0.0:80/api/v1/bold"
 urlT1w = "http://0.0.0.0:80/api/v1/T1w"
+urlRating = "http://0.0.0.0:80/api/v1/rating"
+urlRatingCounts = 'http://0.0.0.0:80/api/v1/rating_counts?{}'
 codeForInvalid = 422
 
 
@@ -59,8 +62,7 @@ class TestCase(unittest.TestCase):
                   input_count)
         self.assertTrue(input_count == get_resp['_meta']['total'])
 
-
-    ########## Testing Bold ############
+    # Testing Bold ############
     def test_01_ConnectionStatus(self):
         log = logging.getLogger("mriqcwebapi")
 
@@ -82,10 +84,7 @@ class TestCase(unittest.TestCase):
                 log.debug('Response: %s', get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
-
     def test_02_MissingFieldInput(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(boldMissingPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -96,8 +95,7 @@ class TestCase(unittest.TestCase):
                 # print post_resp.status_code
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
-
-    ########## Testing T1w ############
+    # Testing T1w ############
     def test_03_ConnectionStatus(self):
         log = logging.getLogger("mriqcwebapi")
 
@@ -119,10 +117,7 @@ class TestCase(unittest.TestCase):
                 log.debug('Response: %s', get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
-
     def test_04_MissingFieldInput(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(T1wMissingPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -133,11 +128,8 @@ class TestCase(unittest.TestCase):
                 # print post_resp.status_code
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
-
-    ########## Cross Testing: send data to wrong end point ############
+    # Cross Testing: send data to wrong end point ############
     def test_05_boldDataToT1wEndPoint(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(boldPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -147,10 +139,7 @@ class TestCase(unittest.TestCase):
                     headers=authenticated_header)
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
-
     def test_06_T1wDataToBoldEndPoint(self):
-        log = logging.getLogger("mriqcwebapi")
-
         for file_name in glob(T1wPattern):
             with open(file_name) as fp:
                 input_data = json.load(fp)
@@ -159,7 +148,6 @@ class TestCase(unittest.TestCase):
                     urlBold, data=json.dumps(input_data),
                     headers=authenticated_header)
                 self.assertTrue(post_resp.status_code == codeForInvalid)
-
 
     def test_07_T1wDataValid(self):
         for file_name in glob(T1wPattern):
@@ -178,7 +166,6 @@ class TestCase(unittest.TestCase):
                     self.assertTrue(key in queried_data)
                     # check key-value pair match
                     self.assertTrue(input_data[key] == queried_data[key])
-
 
     def test_08_boldDataValid(self):
         for file_name in glob(boldPattern):
@@ -200,13 +187,35 @@ class TestCase(unittest.TestCase):
                 # check key-value pair match
                 self.assertTrue(input_data[key] == queried_data[key])
 
-
     def test_09_failedAuth(self):
         with open(glob(boldPattern)[0]) as fp:
             inputData = json.load(fp)
             postResponse = requests.post(urlBold, data=json.dumps(inputData),
                                          headers=header)
             self.assertTrue(postResponse.status_code == 401)  # ****************
+
+    def test_10_ratingDataValid(self):
+        for file_name in glob(ratingPattern):
+            with open(file_name) as fp:
+                input_data = json.load(fp)
+
+                # 2. POST request
+                post_resp = requests.post(
+                    urlRating, data=json.dumps(input_data),
+                    headers=authenticated_header)
+                self.assertTrue(post_resp.raise_for_status() is None)
+
+        # retrive counts of ratings we just submitted
+        get_resp = requests.get(
+            urlRatingCounts.format('aggregate={"$value":"57cd35190da3c813a3c3dadccd8a4ad7"}'),
+            headers=authenticated_header
+        )
+        data = get_resp.json()
+        for elem in data['_items']:
+            if elem['_id'] == "good":
+                self.assertTrue(elem['count'] == 3)
+            if elem['_id'] == "bad":
+                self.assertTrue(elem['count'] == 1)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,63 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@2.1.4
+
+jobs:
+
+  build_and_test:
+    working_directory: /home/circleci/mriqcwebapi
+
+    machine:
+      image: ubuntu-2004:202104-01
+      docker_layer_caching: true
+      
+    environment:
+      - SECRET_KEY: CI
+      - MONGODB_HOST: mongodb
+      - MONGODB_PORT: 27017
+      - API_TOKEN: <secret_token>
+      - API_URL: "http://localhost/docs/api"
+    
+    steps:
+      - docker/install-docker-credential-helper
+      - run:
+          name: Docker authentication
+          command: |
+            if [[ -n $DOCKER_PAT ]]; then
+              echo "$DOCKER_PAT" | docker login -u $DOCKER_USER --password-stdin
+            fi
+
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python3 -m pip install --upgrade pip
+            python3 -m pip install docker-compose
+            python3 -m pip install requests
+      - run:
+          name: Set-up dockereve
+          command: |
+            mkdir -p dockereve-master/nginx/.ssl
+            touch dockereve-master/nginx/.ssl/mriqcep.crt
+            touch dockereve-master/nginx/.ssl/mriqcep.key
+            docker pull mongo:latest 
+            docker pull swaggerapi/swagger-ui:latest 
+            docker pull nginx:latest
+            docker-compose -f dockereve-master/docker-compose.yml build
+      - run:
+          name: Start server
+          command: docker-compose -f dockereve-master/docker-compose.yml up -d
+      - run:
+          name: Test MRIQC WebAPI
+          command: python3 test/testGetPost.py
+
+workflows:
+  version: 2
+  webapi:
+    jobs:
+      - build_and_test:
+          context:
+            - nipreps-common
+          filters:
+            tags:
+              only: /.*/

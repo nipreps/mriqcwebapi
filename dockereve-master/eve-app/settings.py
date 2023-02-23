@@ -1,5 +1,4 @@
 import os
-import re
 from copy import deepcopy
 
 bids_schema = {
@@ -43,7 +42,7 @@ bids_schema = {
     'InversionTime': {'type': 'float'},
     'MRAcquisitionType': {'type': 'string'},
     'MRTransmitCoilSequence': {'type': 'string'},
-    'MagneticFieldStrength': {'type': 'integer'},
+    'MagneticFieldStrength': {'type': 'float'},
     'Manufacturer': {'type': 'string'},
     'ManufacturersModelName': {'type': 'string'},
     'MatrixCoilMode': {'type': 'string'},
@@ -553,13 +552,14 @@ settings = {
     'API_VERSION': 'v1',
     'ALLOWED_FILTERS': ['*'],
     'MONGO_HOST': os.environ.get('MONGODB_HOST', ''),
-    'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
+    'MONGO_PORT': int(os.environ.get('MONGODB_PORT', 27017)),
     'MONGO_DBNAME': 'mriqc_api',
     'PUBLIC_METHODS': ['GET'],
     'PUBLIC_ITEM_METHODS': ['GET'],
     'RESOURCE_METHODS': ['GET', 'POST'],
     'ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
+    'X_HEADERS': ['Authorization', 'Content-Type'],
     'DOMAIN': {
         'bold': {
             'item_title': 'bold',
@@ -574,6 +574,72 @@ settings = {
     }
 }
 
+rating_schema = {
+    'rating': {
+        'type': 'string',
+        'required': True
+    },
+    'name': {
+        'type': 'string',
+        'required': False
+    },
+    'comment': {
+        'type': 'string',
+        'required': False
+    },
+    'md5sum': {
+        'type': 'string',
+        'required': True
+    }
+}
+
+nipype_schema = {
+    'interface_class_name': {
+        'type': 'string',
+        'required': True
+    },
+    'version': {
+        'type': 'string',
+        'required': True
+    },
+    'mem_peak_gb': {
+        'type': 'float',
+        'required': True
+    },
+    'duration_sec': {
+        'type': 'float',
+        'required': True
+    },
+    'inputs': {
+        'type': 'dict',
+        'required': True
+    }
+}
+
+settings['DOMAIN']['nipype_telemetry'] = {
+    'type': 'dict',
+    'required': False,
+    'schema': deepcopy(nipype_schema)
+}
+
+settings['DOMAIN']['rating'] ={
+    'type': 'dict',
+    'required': False,
+    'schema': deepcopy(rating_schema)
+}
+
+settings['DOMAIN']['rating_counts'] = {
+    'datasource': {
+        'source': 'rating',
+        'aggregation': {
+            'pipeline': [
+                {"$match": {"md5sum": "$value"}},
+                {"$unwind": "$rating"},
+                {"$group": {"_id": "$rating", "count": {"$sum": 1}}},
+            ],
+        }
+    }
+}
 
 settings['DOMAIN']['bold']['schema'] = deepcopy(bold_iqms_schema)
 settings['DOMAIN']['bold']['schema'].update(
@@ -588,7 +654,12 @@ settings['DOMAIN']['bold']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        }
+        },
+        'rating': {
+            'type': 'dict',
+            'required': False,
+            'schema': deepcopy(rating_schema)
+        },
     }
 )
 
@@ -613,9 +684,8 @@ settings['DOMAIN']['T1w']['schema'].update(
             'type': 'dict',
             'required': True,
             'schema': deepcopy(prov_schema)
-        }
+        },
     }
 )
 
 settings['DOMAIN']['T2w']['schema'] = deepcopy(settings['DOMAIN']['T1w']['schema'])
-
