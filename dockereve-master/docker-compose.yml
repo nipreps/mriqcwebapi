@@ -8,12 +8,10 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /www/static
       - ./uwsgi_params.par:/etc/nginx/uwsgi_params.par:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/.ssl:/etc/ssl/certs/
-    volumes_from:
-      - eve
+      - eve:/www/static
 
   swagger_ui:
     image: swaggerapi/swagger-ui:latest
@@ -34,3 +32,7 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+
+volumes:
+    eve:
+
