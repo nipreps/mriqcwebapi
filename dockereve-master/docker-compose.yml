@@ -15,11 +15,15 @@ services:
 
   swagger_ui:
     image: swaggerapi/swagger-ui:latest
+    hostname: swagger_ui
     env_file:
         - .env
+    ports:
+      - "8080:8080"
 
   eve:
     restart: unless-stopped
+    hostname: eve
     env_file:
         - .env
     build: eve-app
