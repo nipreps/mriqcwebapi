@@ -1,11 +1,15 @@
-version: 2
+version: 2.1
+orbs:
+  docker: circleci/docker@2.1.4
+
 jobs:
 
   build_and_test:
     working_directory: /home/circleci/mriqcwebapi
 
     machine:
-      image: circleci/classic:latest
+      image: ubuntu-2004:202104-01
+      docker_layer_caching: true
       
     environment:
       - SECRET_KEY: CI
@@ -15,6 +19,14 @@ jobs:
       - API_URL: "http://localhost/docs/api"
     
     steps:
+      - docker/install-docker-credential-helper
+      - run:
+          name: Docker authentication
+          command: |
+            if [[ -n $DOCKER_PAT ]]; then
+              echo "$DOCKER_PAT" | docker login -u $DOCKER_USER --password-stdin
+            fi
+
       - checkout
       - run:
           name: Install dependencies
@@ -44,6 +56,8 @@ workflows:
   webapi:
     jobs:
       - build_and_test:
+          context:
+            - nipreps-common
           filters:
             tags:
               only: /.*/
