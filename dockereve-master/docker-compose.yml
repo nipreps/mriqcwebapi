@@ -50,6 +50,7 @@ services:
 
   mongodb:
     image: mongo:latest
+    hostname: mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
