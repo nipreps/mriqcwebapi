@@ -3,7 +3,7 @@ version: '3.6'
 services:
   nginx:
     image: nginx:latest
-    restart: unless-stopped
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -31,7 +31,7 @@ services:
       - mynet
 
   endpoints:
-    restart: unless-stopped
+    restart: always
     hostname: endpoints
     env_file:
         - .env
@@ -40,9 +40,10 @@ services:
       - "5000:5000"
     volumes:
       - ./eve-app/settings.py:/usr/src/app/settings.py
+      - ./log/:/var/log/
       - eve:/usr/src/app/static
       # - /usr/src/app/static
-    command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
+    command: /usr/local/bin/gunicorn -w 2 --access-logfile /var/log/gunicorn.log -b :5000 app:app
     depends_on:
       - mongodb
     networks:
@@ -51,7 +52,7 @@ services:
   mongodb:
     image: mongo:latest
     hostname: mongodb
-    restart: unless-stopped
+    restart: always
     ports:
       - "27017:27017"
     networks:
