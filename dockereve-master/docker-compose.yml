@@ -54,6 +54,7 @@ services:
     container_name: mongodb
     command: mongod --verbose --bind_ip_all
     hostname: mongodb
+    command: mongod --repair
     ports:
       - "27017:27017"
     networks:
