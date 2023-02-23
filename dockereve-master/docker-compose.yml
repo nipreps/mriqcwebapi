@@ -11,13 +11,15 @@ services:
       - ./uwsgi_params.par:/etc/nginx/uwsgi_params.par:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/.ssl:/etc/ssl/certs/
-      - eve:/www/static
+      - /tmp/log/nginx/error.log:/var/log/nginx/error.log
+      # - eve:/www/static
     depends_on:
-      - eve
-      - swagger_ui
+      - endpoints
+      - frontend
 
-  swagger_ui:
+  frontend:
     image: swaggerapi/swagger-ui:latest
+    container_name: frontend
     env_file:
         - .env
     ports:
@@ -25,8 +27,9 @@ services:
     depends_on:
       - mongodb
 
-  eve:
+  endpoints:
     restart: unless-stopped
+    container_name: endpoints
     env_file:
         - .env
     build: eve-app
@@ -34,7 +37,8 @@ services:
       - "5000:5000"
     volumes:
       - ./eve-app/settings.py:/usr/src/app/settings.py
-      - eve:/usr/src/app/static
+      # - eve:/usr/src/app/static
+      - /usr/src/app/static
     command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
     depends_on:
       - mongodb
@@ -44,7 +48,3 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
-
-volumes:
-    eve:
-
