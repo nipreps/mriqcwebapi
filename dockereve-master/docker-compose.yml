@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nginx:
-    image: nginx
+    image: nginx:latest
     restart: unless-stopped
     ports:
       - "80:80"
@@ -15,7 +15,8 @@ services:
 
   swagger_ui:
     image: swaggerapi/swagger-ui:latest
-    env_file: .env
+    env_file:
+        - .env
 
   eve:
     restart: unless-stopped
@@ -27,9 +28,10 @@ services:
     volumes:
       - ./eve-app/settings.py:/usr/src/app/settings.py
       - eve:/usr/src/app/static
+    command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
 
   mongodb:
-    image: mongo:3.6
+    image: mongo:latest
     restart: unless-stopped
     ports:
       - "27017:27017"
