@@ -1,42 +1,36 @@
-nginx:
+version: '3'
+
+services:
+  nginx:
     image: nginx
     restart: always
     ports:
-        - 80:80
-        - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
-        - /www/static
-        - ./uwsgi_params.par:/etc/nginx/uwsgi_params.par:ro
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        - ./nginx/.ssl:/etc/ssl/certs/
+      - /www/static
+      - ./uwsgi_params.par:/etc/nginx/uwsgi_params.par:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/.ssl:/etc/ssl/certs/
     volumes_from:
-        - eve
-    links:
-        - eve:eve
-        - swagger_ui:swagger_ui
+      - eve
 
-swagger_ui:
+  swagger_ui:
     image: swaggerapi/swagger-ui:latest
     env_file: .env
 
-eve:
+  eve:
     restart: always
     env_file: .env
     build: eve-app
-    expose:
-        - 5000
     ports:
-        - 5000
+      - "5000:5000"
     volumes:
-        - ./eve-app:/usr/src/app 
-        - /usr/src/app/static
-    links:
-        - mongodb
+      - ./eve-app:/usr/src/app 
+      - /usr/src/app/static
     command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
 
-mongodb:
-  image: mongo
-  expose:
-    - 27017
-  ports:
-    - 27017
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
