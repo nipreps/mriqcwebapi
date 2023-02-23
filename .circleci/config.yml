@@ -38,6 +38,8 @@ jobs:
           name: Set-up dockereve
           command: |
             mkdir -p dockereve-master/nginx/.ssl
+            mkdir -p /tmp/log
+            ln -s /tmp/log ./log
             touch dockereve-master/nginx/.ssl/mriqcep.crt
             touch dockereve-master/nginx/.ssl/mriqcep.key
             docker pull mongo:latest 
@@ -46,7 +48,25 @@ jobs:
             docker-compose -f dockereve-master/docker-compose.yml build
       - run:
           name: Start server
-          command: docker-compose -f dockereve-master/docker-compose.yml up -d
+          command: |
+            docker system prune -f
+            docker-compose -f dockereve-master/docker-compose.yml up
+          background: true
+
+      - run:
+          name: Check Swagger frontend is up
+          command: |
+            sleep 10
+            curl -i http://localhost:8080/
+
+      - run:
+          name: Check BOLD endpoint is up
+          command: |
+            curl -i -H "Content-Type: application/json" http://localhost:5000/api/v1/bold
+
+      - store_artifacts:
+          path: /tmp/log/
+
       - run:
           name: Test MRIQC WebAPI
           command: python3 test/testGetPost.py
