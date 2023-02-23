@@ -16,6 +16,8 @@ services:
     depends_on:
       - endpoints
       - frontend
+    networks:
+      - mynet
 
   frontend:
     image: swaggerapi/swagger-ui:latest
@@ -26,6 +28,8 @@ services:
       - "8080:8080"
     depends_on:
       - mongodb
+    networks:
+      - mynet
 
   endpoints:
     restart: unless-stopped
@@ -42,9 +46,17 @@ services:
     command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
     depends_on:
       - mongodb
+    networks:
+      - mynet
 
   mongodb:
     image: mongo:latest
     restart: unless-stopped
     ports:
       - "27017:27017"
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge
