@@ -42,7 +42,6 @@ services:
       - ./eve-app/settings.py:/usr/src/app/settings.py
       - ./log/:/var/log/
       - eve:/usr/src/app/static
-      # - /usr/src/app/static
     command: /usr/local/bin/gunicorn -w 2 --access-logfile /var/log/gunicorn.log -b :5000 app:app
     depends_on:
       - mongodb
@@ -52,9 +51,8 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
-    command: mongod --verbose --bind_ip_all
     hostname: mongodb
-    command: mongod --repair
+    command: mongod --bind_ip_all
     ports:
       - "27017:27017"
     networks:
