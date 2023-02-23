@@ -3,7 +3,7 @@ version: '3'
 services:
   nginx:
     image: nginx
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -18,18 +18,19 @@ services:
     env_file: .env
 
   eve:
-    restart: always
-    env_file: .env
+    restart: unless-stopped
+    env_file:
+        - .env
     build: eve-app
     ports:
       - "5000:5000"
     volumes:
-      - ./eve-app:/usr/src/app 
-      - /usr/src/app/static
-    command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
+      - ./eve-app/settings.py:/usr/src/app/settings.py
+      - eve:/usr/src/app/static
 
   mongodb:
-    image: mongo
+    image: mongo:3.6
+    restart: unless-stopped
     ports:
       - "27017:27017"
 
