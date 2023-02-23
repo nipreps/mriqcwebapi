@@ -47,6 +47,12 @@ jobs:
       - run:
           name: Start server
           command: docker-compose -f dockereve-master/docker-compose.yml up -d
+
+      - run:
+          name: Check BOLD endpoint is up
+          command: |
+            curl -i -H "Content-Type: application/json" http://localhost/api/v1/bold
+
       - run:
           name: Test MRIQC WebAPI
           command: python3 test/testGetPost.py
