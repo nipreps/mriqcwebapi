@@ -49,6 +49,11 @@ jobs:
           command: docker-compose -f dockereve-master/docker-compose.yml up -d
 
       - run:
+          name: Check Swagger frontend is up
+          command: |
+            curl -i http://localhost/
+
+      - run:
           name: Check BOLD endpoint is up
           command: |
             curl -i -H "Content-Type: application/json" http://localhost/api/v1/bold

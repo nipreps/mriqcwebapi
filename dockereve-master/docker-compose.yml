@@ -12,6 +12,9 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/.ssl:/etc/ssl/certs/
       - eve:/www/static
+    depends_on:
+      - eve
+      - swagger_ui
 
   swagger_ui:
     image: swaggerapi/swagger-ui:latest
@@ -19,6 +22,8 @@ services:
         - .env
     ports:
       - "8080:8080"
+    depends_on:
+      - mongodb
 
   eve:
     restart: unless-stopped
@@ -31,6 +36,8 @@ services:
       - ./eve-app/settings.py:/usr/src/app/settings.py
       - eve:/usr/src/app/static
     command: /usr/local/bin/gunicorn -w 2 -b :5000 app:app
+    depends_on:
+      - mongodb
 
   mongodb:
     image: mongo:latest
