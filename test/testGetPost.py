@@ -7,13 +7,13 @@ import sys
 from glob import glob
 
 # test data directory
-boldPattern = os.path.join('test/bold/validData', '*.json')
-T1wPattern = os.path.join('test/T1w/validData', '*.json')
-ratingPattern = os.path.join('test/rating/validData', '*.json')
+boldPattern = os.path.join("test/bold/validData", "*.json")
+T1wPattern = os.path.join("test/T1w/validData", "*.json")
+ratingPattern = os.path.join("test/rating/validData", "*.json")
 
 # missing field data directory
-boldMissingPattern = os.path.join('test/bold/missingField', '*.json')
-T1wMissingPattern = os.path.join('test/T1w/missingField', '*.json')
+boldMissingPattern = os.path.join("test/bold/missingField", "*.json")
+T1wMissingPattern = os.path.join("test/T1w/missingField", "*.json")
 
 
 # url for GET
@@ -30,14 +30,14 @@ def getRequest(post_resp, url):
 
 
 # MAIN ######
-header = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+header = {"content-type": "application/json", "Accept-Charset": "UTF-8"}
 authenticated_header = header.copy()
-authenticated_header['Authorization'] = os.environ.get('API_TOKEN', '<secret_token>')
+authenticated_header["Authorization"] = os.environ.get("API_TOKEN", "<secret_token>")
 numOfTestData = 84
 urlBold = "http://0.0.0.0:80/api/v1/bold"
 urlT1w = "http://0.0.0.0:80/api/v1/T1w"
 urlRating = "http://0.0.0.0:80/api/v1/rating"
-urlRatingCounts = 'http://0.0.0.0:80/api/v1/rating_counts?{}'
+urlRatingCounts = "http://0.0.0.0:80/api/v1/rating_counts?{}"
 codeForInvalid = 422
 
 
@@ -51,16 +51,16 @@ class TestCase(unittest.TestCase):
                 inputData = json.load(fp)
 
                 input_count += 1  # POST request
-            postResponse = requests.post(urlT1w, data=json.dumps(inputData),
-                                         headers=authenticated_header)
+            postResponse = requests.post(
+                urlT1w, data=json.dumps(inputData), headers=authenticated_header
+            )
             self.assertTrue(postResponse.raise_for_status() is None)
 
         # GET request
         # print requests.get(urlT1w)
         get_resp = requests.get(urlT1w).json()
-        log.debug("total: %d (input_count=%d)", get_resp['_meta']['total'],
-                  input_count)
-        self.assertTrue(input_count == get_resp['_meta']['total'])
+        log.debug("total: %d (input_count=%d)", get_resp["_meta"]["total"], input_count)
+        self.assertTrue(input_count == get_resp["_meta"]["total"])
 
     # Testing Bold ############
     def test_01_ConnectionStatus(self):
@@ -72,16 +72,17 @@ class TestCase(unittest.TestCase):
 
             # POST request
             post_resp = requests.post(
-                urlBold, data=json.dumps(input_data), headers=authenticated_header)
+                urlBold, data=json.dumps(input_data), headers=authenticated_header
+            )
 
             if post_resp.raise_for_status() is not None:
-                log.debug('Response: %s', post_resp.json())
+                log.debug("Response: %s", post_resp.json())
                 self.assertTrue(post_resp.raise_for_status() is None)
 
             # GET request
             get_resp = requests.get(getURL(post_resp, urlBold))
             if get_resp.raise_for_status() is not None:
-                log.debug('Response: %s', get_resp.json())
+                log.debug("Response: %s", get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
     def test_02_MissingFieldInput(self):
@@ -90,8 +91,8 @@ class TestCase(unittest.TestCase):
                 input_data = json.load(fp)
                 # POST request
                 post_resp = requests.post(
-                    urlBold, data=json.dumps(input_data),
-                    headers=authenticated_header)
+                    urlBold, data=json.dumps(input_data), headers=authenticated_header
+                )
                 # print post_resp.status_code
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
@@ -105,16 +106,17 @@ class TestCase(unittest.TestCase):
             # print input_data
             # POST request
             post_resp = requests.post(
-                urlT1w, data=json.dumps(input_data), headers=authenticated_header)
+                urlT1w, data=json.dumps(input_data), headers=authenticated_header
+            )
 
-            log.debug('Response: %s', post_resp.json())
+            log.debug("Response: %s", post_resp.json())
             if post_resp.raise_for_status() is not None:
                 self.assertTrue(post_resp.raise_for_status() is None)
 
             # GET request
             get_resp = requests.get(getURL(post_resp, urlT1w))
             if get_resp.raise_for_status() is not None:
-                log.debug('Response: %s', get_resp.json())
+                log.debug("Response: %s", get_resp.json())
                 self.assertTrue(get_resp.raise_for_status() is None)
 
     def test_04_MissingFieldInput(self):
@@ -123,8 +125,8 @@ class TestCase(unittest.TestCase):
                 input_data = json.load(fp)
                 # POST request
                 post_resp = requests.post(
-                    urlT1w, data=json.dumps(input_data),
-                    headers=authenticated_header)
+                    urlT1w, data=json.dumps(input_data), headers=authenticated_header
+                )
                 # print post_resp.status_code
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
@@ -135,8 +137,8 @@ class TestCase(unittest.TestCase):
                 input_data = json.load(fp)
                 # POST request
                 post_resp = requests.post(
-                    urlT1w, data=json.dumps(input_data),
-                    headers=authenticated_header)
+                    urlT1w, data=json.dumps(input_data), headers=authenticated_header
+                )
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
     def test_06_T1wDataToBoldEndPoint(self):
@@ -145,8 +147,8 @@ class TestCase(unittest.TestCase):
                 input_data = json.load(fp)
                 # POST request
                 post_resp = requests.post(
-                    urlBold, data=json.dumps(input_data),
-                    headers=authenticated_header)
+                    urlBold, data=json.dumps(input_data), headers=authenticated_header
+                )
                 self.assertTrue(post_resp.status_code == codeForInvalid)
 
     def test_07_T1wDataValid(self):
@@ -155,8 +157,8 @@ class TestCase(unittest.TestCase):
                 input_data = json.load(fp)
                 # 2. POST request
                 post_resp = requests.post(
-                    urlT1w, data=json.dumps(input_data),
-                    headers=authenticated_header)
+                    urlT1w, data=json.dumps(input_data), headers=authenticated_header
+                )
 
                 # 3. GET request
                 queried_data = getRequest(post_resp, urlT1w)
@@ -174,8 +176,8 @@ class TestCase(unittest.TestCase):
 
             # 2. POST request
             post_resp = requests.post(
-                urlBold, data=json.dumps(input_data),
-                headers=authenticated_header)
+                urlBold, data=json.dumps(input_data), headers=authenticated_header
+            )
             self.assertTrue(post_resp.raise_for_status() is None)
 
             # 3. GET request
@@ -190,8 +192,9 @@ class TestCase(unittest.TestCase):
     def test_09_failedAuth(self):
         with open(glob(boldPattern)[0]) as fp:
             inputData = json.load(fp)
-            postResponse = requests.post(urlBold, data=json.dumps(inputData),
-                                         headers=header)
+            postResponse = requests.post(
+                urlBold, data=json.dumps(inputData), headers=header
+            )
             self.assertTrue(postResponse.status_code == 401)  # ****************
 
     def test_10_ratingDataValid(self):
@@ -201,24 +204,26 @@ class TestCase(unittest.TestCase):
 
                 # 2. POST request
                 post_resp = requests.post(
-                    urlRating, data=json.dumps(input_data),
-                    headers=authenticated_header)
+                    urlRating, data=json.dumps(input_data), headers=authenticated_header
+                )
                 self.assertTrue(post_resp.raise_for_status() is None)
 
         # retrive counts of ratings we just submitted
         get_resp = requests.get(
-            urlRatingCounts.format('aggregate={"$value":"57cd35190da3c813a3c3dadccd8a4ad7"}'),
-            headers=authenticated_header
+            urlRatingCounts.format(
+                'aggregate={"$value":"57cd35190da3c813a3c3dadccd8a4ad7"}'
+            ),
+            headers=authenticated_header,
         )
         data = get_resp.json()
-        for elem in data['_items']:
-            if elem['_id'] == "good":
-                self.assertTrue(elem['count'] == 3)
-            if elem['_id'] == "bad":
-                self.assertTrue(elem['count'] == 1)
+        for elem in data["_items"]:
+            if elem["_id"] == "good":
+                self.assertTrue(elem["count"] == 3)
+            if elem["_id"] == "bad":
+                self.assertTrue(elem["count"] == 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig(stream=sys.stderr)
     logging.getLogger("mriqcwebapi").setLevel(logging.DEBUG)
 
