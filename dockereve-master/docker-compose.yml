@@ -52,6 +52,7 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
+    command: mongod --verbose --bind_ip_all
     hostname: mongodb
     ports:
       - "27017:27017"
