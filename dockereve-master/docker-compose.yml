@@ -57,6 +57,8 @@ services:
       - "27017:27017"
     networks:
       - mynet
+    volumes:
+      - ./db:/data/db
 
 networks:
   mynet:

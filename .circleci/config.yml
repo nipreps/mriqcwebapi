@@ -39,7 +39,9 @@ jobs:
           command: |
             mkdir -p dockereve-master/nginx/.ssl
             mkdir -p /tmp/log
+            mkdir -p /tmp/db
             ln -s /tmp/log ./log
+            ln -s /tmp/db ./db
             touch dockereve-master/nginx/.ssl/mriqcep.crt
             touch dockereve-master/nginx/.ssl/mriqcep.key
             docker pull mongo:latest 
