@@ -15,6 +15,12 @@ $ curl -i -H "Content-Type: application/json" http://localhost/api/v1/T1w
 
 Swagger API documentation available at `http://localhost/docs`.
 
+## Compatibility note (Python 3.7 base image)
+The `dockereve-master/eve-app` image uses a Python 3.7 base. To avoid
+`functools.cache` import errors from newer Flask/Werkzeug releases, the
+`eve-app/requirements.txt` pins Eve to `1.1.5` and caps Flask/Werkzeug below
+2.1. If you upgrade the runtime Python, revisit these pins accordingly.
+
 ## Environment variables in Docker
 To properly run the file dockereve-master/.env needs to be populated the following are the default values:
 ```
