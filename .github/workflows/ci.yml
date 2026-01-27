@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-22.04
+    env:
+      SECRET_KEY: CI
+      MONGODB_HOST: mongodb
+      MONGODB_PORT: 27017
+      API_TOKEN: ${{ secrets.API_TOKEN }}
+      API_URL: http://localhost/docs/api
+
+    # Required secrets: API_TOKEN
+    # Optional secrets: DOCKER_PAT, DOCKER_USER
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker authentication
+        if: ${{ secrets.DOCKER_PAT != '' && secrets.DOCKER_USER != '' }}
+        run: |
+          echo "${DOCKER_PAT}" | docker login -u "${DOCKER_USER}" --password-stdin
+        env:
+          DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+
+      - name: Set up dockereve
+        run: |
+          mkdir -p dockereve-master/nginx/.ssl /tmp/log /tmp/db
+          ln -s /tmp/log ./log
+          ln -s /tmp/db ./db
+          touch dockereve-master/nginx/.ssl/mriqcep.crt
+          touch dockereve-master/nginx/.ssl/mriqcep.key
+          docker pull mongo:latest
+          docker pull swaggerapi/swagger-ui:latest
+          docker pull nginx:latest
+          docker compose -f dockereve-master/docker-compose.yml build
+
+      - name: Start server
+        run: docker compose -f dockereve-master/docker-compose.yml up -d
+
+      - name: Check Swagger frontend is up
+        run: |
+          sleep 10
+          curl -i http://localhost:8080/
+
+      - name: Check BOLD endpoint is up
+        run: |
+          curl -i -H "Content-Type: application/json" http://localhost:5000/api/v1/bold
+
+      - name: Install pipx
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --user pipx
+
+      - name: Ruff format check
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          pipx run ruff format --diff .
+
+      - name: Ruff lint check
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          pipx run ruff check .
+
+      - name: Test MRIQC WebAPI
+        run: python3 test/testGetPost.py
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: /tmp/log/
