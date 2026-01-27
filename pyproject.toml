@@ -1,10 +1,9 @@
 [tool.ruff]
-line-length = 88
+line-length = 99
 target-version = "py37"
 
 [tool.ruff.lint]
 select = ["E", "F"]
-per-file-ignores = { "test/testGetPost.py" = ["E501"] }
 
 [tool.ruff.format]
 line-ending = "lf"
