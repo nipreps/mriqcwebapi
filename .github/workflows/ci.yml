@@ -78,14 +78,13 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Ruff format check
-        uses: astral-sh/ruff-action@v1
-        with:
-          args: "format --diff ."
-          version: "latest"
+      - name: Install Ruff
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install ruff
 
       - name: Ruff lint check
-        uses: astral-sh/ruff-action@v1
-        with:
-          args: "check ."
-          version: "latest"
+        run: ruff check .
+
+      - name: Ruff format check
+        run: ruff format --diff .
