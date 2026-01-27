@@ -15,7 +15,7 @@ jobs:
       API_URL: http://localhost/docs/api
 
     # Required secrets: API_TOKEN
-    # Optional secrets: DOCKER_TOKEN
+    # Optional secrets: DOCKER_TOKEN, DOCKER_USERNAME
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,9 +23,10 @@ jobs:
       - name: Docker authentication
         if: ${{ env.DOCKER_TOKEN != '' }}
         run: |
-          echo "${DOCKER_TOKEN}" | docker login --username "${DOCKER_TOKEN}" --password-stdin
+          echo "${DOCKER_TOKEN}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
         env:
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Set up dockereve
         run: |
