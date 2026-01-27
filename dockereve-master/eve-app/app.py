@@ -19,14 +19,14 @@ class TokenAuth(TokenAuth):
 
 app = Eve(settings=settings, auth=TokenAuth)
 swagger = get_swagger_blueprint()
-app.register_blueprint(swagger, url_prefix='/docs/api')
-app.add_url_rule('/docs/api', 'eve_swagger.index')
+app.register_blueprint(swagger, url_prefix="/docs/api")
+app.add_url_rule("/docs/api", "eve_swagger.index")
 
 # required. See http://swagger.io/specification/#infoObject for details.
-app.config['SWAGGER_INFO'] = {
-    'title': 'MRIQC Web API',
-    'version': 'v1',
-    'description': """\
+app.config["SWAGGER_INFO"] = {
+    "title": "MRIQC Web API",
+    "version": "v1",
+    "description": """\
 <p>####################################################<br />
 Because of a lapse in government funding, the information on this website 
 may not be up to date, transactions submitted via the website may not be 
@@ -45,8 +45,8 @@ the <a href="http://cmn.nimh.nih.gov">Data Science and Sharing Team</a>
 at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>.</p>""",
 }
 
-if os.environ.get('SWAGGER_HOST', None):
-    app.config['SWAGGER_HOST'] = os.environt.get('SWAGGER_HOST')
+if os.environ.get("SWAGGER_HOST", None):
+    app.config["SWAGGER_HOST"] = os.environt.get("SWAGGER_HOST")
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
