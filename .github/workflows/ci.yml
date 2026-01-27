@@ -52,6 +52,11 @@ jobs:
         run: |
           curl -i -H "Content-Type: application/json" http://localhost:5000/api/v1/bold
 
+      - name: Install test dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pytest requests
+
       - name: Test MRIQC WebAPI
         run: python3 test/testGetPost.py
 
@@ -68,17 +73,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pipx
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install --user pipx
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
       - name: Ruff format check
-        run: |
-          export PATH="$HOME/.local/bin:$PATH"
-          pipx run ruff format --diff .
+        uses: astral-sh/ruff-action@v1
+        with:
+          args: "format --diff ."
+          version: "latest"
 
       - name: Ruff lint check
-        run: |
-          export PATH="$HOME/.local/bin:$PATH"
-          pipx run ruff check .
+        uses: astral-sh/ruff-action@v1
+        with:
+          args: "check ."
+          version: "latest"
