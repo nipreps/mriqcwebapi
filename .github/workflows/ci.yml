@@ -15,18 +15,17 @@ jobs:
       API_URL: http://localhost/docs/api
 
     # Required secrets: API_TOKEN
-    # Optional secrets: DOCKER_PAT, DOCKER_USER
+    # Optional secrets: DOCKER_TOKEN
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Docker authentication
-        if: ${{ env.DOCKER_PAT != '' && env.DOCKER_USER != '' }}
+        if: ${{ env.DOCKER_TOKEN != '' }}
         run: |
-          echo "${DOCKER_PAT}" | docker login -u "${DOCKER_USER}" --password-stdin
+          echo "${DOCKER_TOKEN}" | docker login --username "${DOCKER_TOKEN}" --password-stdin
         env:
-          DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Set up dockereve
         run: |
@@ -52,6 +51,22 @@ jobs:
         run: |
           curl -i -H "Content-Type: application/json" http://localhost:5000/api/v1/bold
 
+      - name: Test MRIQC WebAPI
+        run: python3 test/testGetPost.py
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: /tmp/log/
+
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install pipx
         run: |
           python3 -m pip install --upgrade pip
@@ -66,13 +81,3 @@ jobs:
         run: |
           export PATH="$HOME/.local/bin:$PATH"
           pipx run ruff check .
-
-      - name: Test MRIQC WebAPI
-        run: python3 test/testGetPost.py
-
-      - name: Upload logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: logs
-          path: /tmp/log/
