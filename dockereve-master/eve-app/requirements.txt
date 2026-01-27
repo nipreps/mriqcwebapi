@@ -1,5 +1,4 @@
 gunicorn
-eve==1.1.5
-flask<2.1
-werkzeug<2.1
-eve-swagger>=0.1
+eve==2.2.4
+flask>=2.2,<3
+eve-swagger==0.2.0
