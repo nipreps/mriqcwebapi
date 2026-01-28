@@ -112,7 +112,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          issues_json=$(gh api "repos/${GITHUB_REPOSITORY}/issues" -f state=open -f labels=downtime -f per_page=100)
+          issues_json=$(gh api -X GET "repos/${GITHUB_REPOSITORY}/issues" -f state=open -f labels=downtime -f per_page=100)
           count=$(jq 'length' <<<"$issues_json")
           first_number=$(jq '.[0].number // empty' <<<"$issues_json")
           numbers=$(jq -r '.[].number' <<<"$issues_json" | paste -sd, -)
