@@ -90,6 +90,20 @@ jobs:
             git rm -rf .
           fi
 
+          previous_status=""
+          if [ -f health/status.json ]; then
+            previous_status=$(jq -r '.status // "UNDEFINED"' health/status.json)
+          fi
+
+          new_status="${{ steps.health_status.outputs.status }}"
+          if [ "$previous_status" = "WARN" ]; then
+            previous_status="FAIL"
+          fi
+          if [ "${previous_status:-UNDEFINED}" = "$new_status" ]; then
+            echo "Status unchanged ($new_status). Skipping publish."
+            exit 0
+          fi
+
           mkdir -p health
           cp health_out/index.html health/index.html
           cp health_out/status.json health/status.json
@@ -102,7 +116,7 @@ jobs:
 
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git commit -m "healthcheck(${{ steps.health_status.outputs.status }}): update status page"
+          git commit -m "healthcheck(${new_status}): update status page"
           git push origin gh-pages
 
       - name: Find downtime issues

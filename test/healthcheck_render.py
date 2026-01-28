@@ -1,13 +1,11 @@
 import json
 import sys
-from datetime import datetime, timezone
 
 
 def main(status_path: str, output_path: str) -> None:
     with open(status_path, encoding="utf-8") as handle:
         payload = json.load(handle)
 
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     status = payload["status"]
 
     rows = "\n".join(
@@ -45,7 +43,6 @@ def main(status_path: str, output_path: str) -> None:
     <h1>MRIQC API Health</h1>
     <p class="status">Overall status: {status}</p>
     <p>Since: {payload["since"]}</p>
-    <p>Updated: {now}</p>
     <table>
       <thead>
         <tr>
