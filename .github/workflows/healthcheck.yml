@@ -76,6 +76,35 @@ jobs:
               handle.write(f"status={status}\n")
           PY
 
+      - name: Publish to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          git fetch origin gh-pages || true
+          if git show-ref --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf .
+          fi
+
+          mkdir -p health
+          cp health_out/index.html health/index.html
+          cp health_out/status.json health/status.json
+
+          git add health/index.html health/status.json
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+            exit 0
+          fi
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git commit -m "healthcheck(${{ steps.health_status.outputs.status }}): update status page"
+          git push origin gh-pages
+
       - name: Find downtime issues
         id: downtime_issues
         env:
@@ -102,7 +131,7 @@ jobs:
           gh api "repos/${GITHUB_REPOSITORY}/issues" \
             -f title="Downtime detected: health checks failing" \
             -f body="@nipreps/webapi\n\nHealth check failing: https://www.nipreps.org/mriqcwebapi/health/" \
-            -f labels='["downtime"]'
+            -f labels='downtime'
 
       - name: Deduplicate downtime issues
         if: steps.health_status.outputs.status == 'FAIL' && steps.downtime_issues.outputs.count != '0'
@@ -150,32 +179,3 @@ jobs:
               -X PATCH \
               -f state=closed
           done
-
-      - name: Publish to gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-
-          git fetch origin gh-pages || true
-          if git show-ref --quiet refs/remotes/origin/gh-pages; then
-            git checkout gh-pages
-          else
-            git checkout --orphan gh-pages
-            git rm -rf .
-          fi
-
-          mkdir -p health
-          cp health_out/index.html health/index.html
-          cp health_out/status.json health/status.json
-
-          git add health/index.html health/status.json
-          if git diff --cached --quiet; then
-            echo "No changes to publish."
-            exit 0
-          fi
-
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git commit -m "chore(healthcheck): update status page"
-          git push origin gh-pages
