@@ -13,7 +13,7 @@ def main(status_path: str, output_path: str) -> None:
     rows = "\n".join(
         """<tr>
         <td>{name}</td>
-        <td><a href=\"{url}\">{url}</a></td>
+        <td><a href="{url}">{url}</a></td>
         <td>{code}</td>
         <td>{duration:.3f}s</td>
         <td>{ok}</td>
@@ -28,10 +28,10 @@ def main(status_path: str, output_path: str) -> None:
     )
 
     html = f"""<!doctype html>
-<html lang=\"en\">
+<html lang="en">
   <head>
-    <meta charset=\"utf-8\" />
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MRIQC Healthcheck</title>
     <style>
       body {{ font-family: sans-serif; margin: 2rem; }}
@@ -43,7 +43,7 @@ def main(status_path: str, output_path: str) -> None:
   </head>
   <body>
     <h1>MRIQC API Health</h1>
-    <p class=\"status\">Overall status: {status}</p>
+    <p class="status">Overall status: {status}</p>
     <p>Since: {payload["since"]}</p>
     <p>Updated: {now}</p>
     <table>
