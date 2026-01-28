@@ -7,6 +7,7 @@ name: Healthcheck
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   probe:
@@ -52,6 +53,103 @@ jobs:
 
           python test/healthcheck_status.py health_out/raw.txt health_out/status.json
           python test/healthcheck_render.py health_out/status.json health_out/index.html
+
+      - name: Compute health status
+        id: health_status
+        run: |
+          set -euo pipefail
+
+          python - <<'PY'
+          import json
+          import os
+
+          with open("health_out/status.json", encoding="utf-8") as handle:
+              payload = json.load(handle)
+
+          status = "OK"
+          for endpoint in payload.get("endpoints", []):
+              if not endpoint.get("ok", False):
+                  status = "FAIL"
+                  break
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+              handle.write(f"status={status}\n")
+          PY
+
+      - name: Find downtime issues
+        id: downtime_issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          issues_json=$(gh api "repos/${GITHUB_REPOSITORY}/issues" -f state=open -f labels=downtime -f per_page=100)
+          count=$(jq 'length' <<<"$issues_json")
+          first_number=$(jq '.[0].number // empty' <<<"$issues_json")
+          numbers=$(jq -r '.[].number' <<<"$issues_json" | paste -sd, -)
+
+          echo "count=${count}" >> "$GITHUB_OUTPUT"
+          echo "first_number=${first_number}" >> "$GITHUB_OUTPUT"
+          echo "numbers=${numbers}" >> "$GITHUB_OUTPUT"
+
+      - name: Open downtime issue
+        if: steps.health_status.outputs.status == 'FAIL' && steps.downtime_issues.outputs.count == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          gh api "repos/${GITHUB_REPOSITORY}/issues" \
+            -f title="Downtime detected: health checks failing" \
+            -f body="@nipreps/webapi\n\nHealth check failing: https://www.nipreps.org/mriqcwebapi/health/" \
+            -f labels='["downtime"]'
+
+      - name: Deduplicate downtime issues
+        if: steps.health_status.outputs.status == 'FAIL' && steps.downtime_issues.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          keep_number="${{ steps.downtime_issues.outputs.first_number }}"
+          issue_numbers="${{ steps.downtime_issues.outputs.numbers }}"
+
+          if [ -z "$issue_numbers" ] || [ "$issue_numbers" = "$keep_number" ]; then
+            exit 0
+          fi
+
+          IFS=',' read -r -a issue_array <<< "$issue_numbers"
+          for issue_number in "${issue_array[@]}"; do
+            if [ "$issue_number" = "$keep_number" ]; then
+              continue
+            fi
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${issue_number}/comments" \
+              -f body="Superseded by #${keep_number}."
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${issue_number}" \
+              -X PATCH \
+              -f state=closed
+          done
+
+      - name: Close downtime issue on recovery
+        if: steps.health_status.outputs.status == 'OK' && steps.downtime_issues.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          issue_numbers="${{ steps.downtime_issues.outputs.numbers }}"
+          if [ -z "$issue_numbers" ]; then
+            exit 0
+          fi
+
+          IFS=',' read -r -a issue_array <<< "$issue_numbers"
+          for issue_number in "${issue_array[@]}"; do
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${issue_number}/comments" \
+              -f body="Recovered. Health check: https://www.nipreps.org/mriqcwebapi/health/."
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${issue_number}" \
+              -X PATCH \
+              -f state=closed
+          done
 
       - name: Publish to gh-pages
         env:
