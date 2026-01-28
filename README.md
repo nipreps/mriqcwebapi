@@ -15,6 +15,8 @@ $ curl -i -H "Content-Type: application/json" http://localhost/api/v1/T1w
 
 Swagger API documentation available at `http://localhost/docs`.
 
+Healthcheck page (GitHub Pages): `https://nipreps.github.io/mriqcwebapi/health/`.
+
 ## Tests
 ### Integration (pytest)
 These tests require a running Docker Compose stack and a valid API token.
