@@ -96,6 +96,9 @@ jobs:
           fi
 
           new_status="${{ steps.health_status.outputs.status }}"
+          if [ "$previous_status" = "WARN" ]; then
+            previous_status="FAIL"
+          fi
           if [ "${previous_status:-UNDEFINED}" = "$new_status" ]; then
             echo "Status unchanged ($new_status). Skipping publish."
             exit 0
