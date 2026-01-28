@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MRIQC Healthcheck</title>
+    <style>
+      body { font-family: sans-serif; margin: 2rem; }
+      .status { font-weight: bold; }
+      table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+      th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+      th { background: #f5f5f5; }
+    </style>
+  </head>
+  <body>
+    <h1>MRIQC API Health</h1>
+    <p class="status">Overall status: OK</p>
+    <p>Since: 2026-01-28T08:52:54Z</p>
+    <p>Updated: 2026-01-28T08:52:54Z</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>URL</th>
+          <th>Status Code</th>
+          <th>Duration</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td>swagger</td>
+        <td><a href="https://mriqc.nimh.nih.gov/">https://mriqc.nimh.nih.gov/</a></td>
+        <td>200</td>
+        <td>0.375s</td>
+        <td>OK</td>
+      </tr>
+<tr>
+        <td>t1w</td>
+        <td><a href="https://mriqc.nimh.nih.gov/api/v1/T1w">https://mriqc.nimh.nih.gov/api/v1/T1w</a></td>
+        <td>200</td>
+        <td>0.561s</td>
+        <td>OK</td>
+      </tr>
+<tr>
+        <td>bold</td>
+        <td><a href="https://mriqc.nimh.nih.gov/api/v1/bold">https://mriqc.nimh.nih.gov/api/v1/bold</a></td>
+        <td>200</td>
+        <td>0.524s</td>
+        <td>OK</td>
+      </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
