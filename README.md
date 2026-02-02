@@ -1,3 +1,5 @@
+[![Healthcheck](https://github.com/nipreps/mriqcwebapi/actions/workflows/healthcheck.yml/badge.svg)](https://github.com/nipreps/mriqcwebapi/actions/workflows/healthcheck.yml)
+
 Built on:
 * [Python Eve](http://python-eve.org/)
 * [Python Gunicorn](http://gunicorn.org/)
