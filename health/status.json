@@ -1,27 +1,27 @@
 {
   "endpoints": [
     {
-      "duration_seconds": 30.31228,
+      "duration_seconds": 0.393083,
       "name": "swagger",
-      "ok": false,
-      "status_code": 504,
+      "ok": true,
+      "status_code": 200,
       "url": "https://mriqc.nimh.nih.gov/"
     },
     {
-      "duration_seconds": 30.315533,
+      "duration_seconds": 0.559212,
       "name": "t1w",
-      "ok": false,
-      "status_code": 504,
+      "ok": true,
+      "status_code": 200,
       "url": "https://mriqc.nimh.nih.gov/api/v1/T1w"
     },
     {
-      "duration_seconds": 30.237447,
+      "duration_seconds": 0.37307,
       "name": "bold",
-      "ok": false,
-      "status_code": 504,
+      "ok": true,
+      "status_code": 200,
       "url": "https://mriqc.nimh.nih.gov/api/v1/bold"
     }
   ],
-  "since": "2026-04-01T14:07:19Z",
-  "status": "WARN"
+  "since": "2026-04-07T19:32:37Z",
+  "status": "OK"
 }
